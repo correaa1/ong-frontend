@@ -1,20 +1,15 @@
+import React from 'react';
+import UserList from './userList';
 
 
-import React from "react";
+const List = () => {
+  return (
+    <div>
+      <h1 className="text-2xl">Lista de usuarios cadastrados</h1>
+      <UserList />
+    </div>
+  );
+};
 
-     const response = await fetch("http://localhost:8080/v1/users",{
-     cache:"no-cache"
-});
-const users = await response.json();
-console.log(users);             
 
-
-const List = async () => {
-
-     return( 
-           <div>   Lista geral</div> 
-           )
-          };
-                                     
-  
-   export default List;
+export default List;

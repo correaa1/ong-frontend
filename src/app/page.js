@@ -1,6 +1,7 @@
 
 import Link from 'next/link'
 export default function Home() {
+  
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto ">
@@ -23,5 +24,7 @@ export default function Home() {
         </ul>
       </div>
     </nav>
+
+
   )
 }
