@@ -1,5 +1,5 @@
 "use client"
-
+import Link from 'next/link'
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -287,11 +287,17 @@ const Form = () => {
              className="w-full p-2 border rounded-lg max-w-xs"
            />
   </div>
-     <div class="flex items-center justify-center">
-          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
-            Salvar cadastro
-          </button>
+     <div class="flex items-center space-y-3  flex-col ">
+         <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
+                           Salvar cadastro
+                         </button>
+                            <Link href='/list'>
+                                                    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
+                                                                        ir para lista geral
+                                                                             </button> </Link>
            </div>
+
+
  </form>
 
 </div>

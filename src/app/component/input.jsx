@@ -1,33 +1,20 @@
-// components/Input.js
-import React, { useState } from 'react';
+import axios from 'axios';
 
-const Input = ({ onSubmit }) => {
-  const [value, setValue] = useState('');
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    onSubmit(value);
+const ApiButton = () => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/v1/users/Nany');
+      console.log(response.data); // Aqui você pode processar a resposta conforme necessário
+    } catch (error) {
+      console.error('Erro ao fazer a requisição:', error);
+    }
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={value}
-        onChange={handleChange}
-        className="border border-gray-300 p-2 rounded"
-      />
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
-      >
-        Enviar
-      </button>
-    </div>
+    <button onClick={fetchData}/>
+
+
   );
 };
 
-export default Input;
+export default ApiButton;
