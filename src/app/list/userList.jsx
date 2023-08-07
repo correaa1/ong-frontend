@@ -1,18 +1,23 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
-    const [selectedUsers, setSelectedUsers] = useState([]);
+    const navigate = useNavigate();
 
     const handleUserToggle = (userId) => {
-        setSelectedUsers((prevSelected) =>
+        setUsers((prevSelected) =>
             prevSelected.includes(userId)
                 ? prevSelected.filter((id) => id !== userId)
                 : [...prevSelected, userId]
-        );console.log(selectedUsers)
+        );
+    };
+
+    const handleUserListSelect = () => {
+        const selectedUserIds = users.join(',');
+        navigate(`/list/userListSelect?users=${selectedUserIds}`);
     };
     useEffect(() => {
         const apiUrl = 'http://localhost:8080/v1/users';
@@ -38,7 +43,7 @@ const UserList = () => {
                         <label className=" flex items-center gap-2 font-serif p-2 text-teal-50 text-2xl">
                             <input
                                 type="checkbox"
-                                checked={selectedUsers.includes(user.id)}
+                                checked={users.includes(user.id)}
                                 onChange={() => handleUserToggle(user.id)}
                             />
                             <Link to={`/list/profile/${user.id}`}> {user.name}</Link>
@@ -46,6 +51,7 @@ const UserList = () => {
                     </li>
                 ))}
             </ul>
+              <button onClick={handleUserListSelect}>View Selected Users</button>
           </div>
         </div>
     );

@@ -1,9 +1,13 @@
+// pages/UserListSelect.js
 
 import React from 'react';
-import { useNavigationContext } from '../components/NavigationContext';
+import { useLocation } from 'react-router-dom';
 
 const UserListSelect = () => {
-    const { selectedUsers } = useNavigationContext();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const selectedUserIds = queryParams.get('users');
+    const selectedUsers = selectedUserIds ? selectedUserIds.split(',') : [];
 
     return (
         <div>
