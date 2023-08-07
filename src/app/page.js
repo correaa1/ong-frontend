@@ -1,30 +1,33 @@
+"use client"
 
-import Link from 'next/link'
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import Form from "@/app/register/userRegister";
+import UserList from "@/app/list/userList";
+import UserDetails from "@/app/list/userDetail";
+import UserRegister from "@/app/register/userRegister";
+import Register from "@/app/register/page";
+
+
 export default function Home() {
-  
-  return (
-    <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto ">
-        <ul className="flex space-x-4 justify-center">
-          <li>
-            <Link href="/register">
-              <p className="text-white">Cadastro</p>
-            </Link>
-          </li>
-          <li>
-            <Link href="/list">
-              <p className="text-white">Lista Geral</p>
-            </Link>
-          </li>
-          <li>
-            <Link href="/deliveryList">
-              <p className="text-white">Lista Final</p>
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
 
+  return (
+      <Router>
+          <div>
+              <ul>
+                  <li>
+                      <Link to="/register">Cadastro</Link>
+                  </li>
+                  <li>
+                      <Link to="/list">Lista Geral</Link>
+                  </li>
+              </ul>
+
+              <Routes>
+                  <Route path="/list" element={<UserList/>} />
+                  <Route path="/register" element={<Form/>} />
+              </Routes>
+          </div>
+      </Router>
 
   )
 }

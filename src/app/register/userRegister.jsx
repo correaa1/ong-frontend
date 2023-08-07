@@ -1,5 +1,5 @@
 "use client"
-import Link from 'next/link'
+import {Link} from 'react-router-dom'
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ const Form = () => {
     id: '',
     name: '',
     stats: false,
+    idMainParent:'',
     infoUsers: {
       phone: '',
       clothingSize: '',
@@ -76,6 +77,7 @@ const Form = () => {
                 className="w-full p-2 border rounded-lg max-w-xs"
               />
             </div>
+
             <div className="mb-4">
               <label htmlFor="stats" className="block text-gray-700 font-bold">
                 Status:
@@ -90,6 +92,35 @@ const Form = () => {
               />
               <span className="text-sm text-gray-600">Active</span>
             </div>
+
+      <div className="mb-4">
+          <label htmlFor="mainParent" className="block text-gray-700 font-bold">
+              Parente Principal:
+          </label>
+          <input
+              type="checkbox"
+              id="mainParent"
+              name="mainParent"
+              checked={formData.mainParent}
+              onChange={handleChange}
+              className="w-full leading-tight "
+          />
+          <span className="text-sm text-gray-600">Active</span>
+      </div>
+
+      <div className="mb-4">
+          <label htmlFor="idMainParent" className="block text-gray-700 font-bold">
+              Id do familiar:
+          </label>
+          <input
+              type="text"
+              id="idMainParent"
+              name="idMainParent"
+              value={formData.idMainParent}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-lg max-w-xs"
+          />
+      </div>
 
                  <div className="mb-4 flex justify-items-center flex-col ">
                     <label htmlFor="infoUsers" className="block text-gray-700 font-bold">
@@ -287,14 +318,14 @@ const Form = () => {
              className="w-full p-2 border rounded-lg max-w-xs"
            />
   </div>
-     <div class="flex items-center space-y-3  flex-col ">
+     <div className="flex items-center space-y-3  flex-col ">
          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
                            Salvar cadastro
                          </button>
-                            <Link href='/list'>
-                                                    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
-                                                                        ir para lista geral
-                                                                             </button> </Link>
+                            <Link to='/list'>
+                                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
+                             ir para lista geral
+                               </button> </Link>
            </div>
 
 
