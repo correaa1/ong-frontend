@@ -13,22 +13,8 @@ export default function Home() {
 
   return (
       <Router>
-          <div className='flex justify-center text-center p-2 bg-indigo-500 '>
-              <nav>
-              <ul className='flex-row flex    '>
-                 <div className='bg-none hover:bg-indigo-700 border-none hover:rounded-2xl'>
-                     <li className='m-2 '>
-                     <Link to="/register">Cadastro</Link>
-                 </li>
-                 </div>
-                  <div className='bg-none hover:bg-indigo-700 border-none hover:rounded-2xl'>
-                  <li className='m-2'>
-                      <Link to="/list">Lista Geral</Link>
-                  </li></div>
-              </ul>   </nav></div>
-
               <Routes>
-                  <Route path="/" component={<Home />}>
+                  <Route path="/" element={<Form />}>
                   <Route path="/list" element={<UserList/>} />
                   <Route path="/register" element={<Form/>} />
                   <Route path="/list/profile/:id" element={<UserDetails/>} />
