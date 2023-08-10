@@ -10,6 +10,7 @@ const Register = () => {
       <Router>
           <Routes>
                   <Route path="/" element={<Form/>} />
+              <Route path="/register" element={<Form/>} />
               <Route path="/list" element={<UserList/>} />
 
           </Routes>

@@ -6,9 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 const UserList = () => {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+    const [selectedUsers, setSelectedUsers] = useState([]); // State for selected users
 
     const handleUserToggle = (userId) => {
-        setUsers((prevSelected) =>
+        setSelectedUsers((prevSelected) =>
             prevSelected.includes(userId)
                 ? prevSelected.filter((id) => id !== userId)
                 : [...prevSelected, userId]
@@ -16,9 +17,10 @@ const UserList = () => {
     };
 
     const handleUserListSelect = () => {
-        const selectedUserIds = users.join(',');
+        const selectedUserIds = selectedUsers.join(',');
         navigate(`/list/userListSelect?users=${selectedUserIds}`);
     };
+
     useEffect(() => {
         const apiUrl = 'http://localhost:8080/v1/users';
 
@@ -43,8 +45,8 @@ const UserList = () => {
                             <label className=" flex items-center gap-2 font-serif p-2 text-gray-700 text-2xl">
                                 <input
                                     type="checkbox"
-                                    checked={users.includes(user.id)}
-                                    onChange={() => handleUserToggle(user.id)}
+                                    checked={selectedUsers.includes(user.name)}
+                                    onChange={() => handleUserToggle(user.name)}
                                 />
                                 <Link to={`/list/profile/${user.id}`}> {user.name}</Link>
                             </label>

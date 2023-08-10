@@ -50,7 +50,7 @@ const Form = () => {
 
   return (
   <div className=" justify-center flex flex-col items-center">
-      <h1 className='m-4 font-serif p-2 text-gray-700 text-2xl'>Cadastrar novo usuário</h1>
+      <h1 className='m-4 font-sans font-medium p-2 text-gray-700 text-3xl'>Cadastrar novo usuário</h1>
   <div className='p-2  w-1/3 '>
   <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
