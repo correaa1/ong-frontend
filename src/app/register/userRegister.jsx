@@ -2,6 +2,7 @@
 import {Link} from 'react-router-dom'
 import { useState } from 'react';
 import axios from 'axios';
+import UserList from "@/app/list/userList";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -48,8 +49,9 @@ const Form = () => {
   };
 
   return (
-  <div class="w-full max-w-md flex flex-col   ">
-  <div class='p-2'>
+  <div className=" justify-center flex flex-col items-center">
+      <h1 className='m-4 font-serif p-2 text-gray-700 text-2xl'>Cadastrar novo usuário</h1>
+  <div className='p-2  w-1/3 '>
   <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
               <label htmlFor="id" className="block text-gray-700 text-sm font-bold mb-2 ">
@@ -78,8 +80,8 @@ const Form = () => {
               />
             </div>
 
-            <div className="mb-4">
-              <label htmlFor="stats" className="block text-gray-700 font-bold">
+            <div className="mb-4 flex items-center">
+              <label htmlFor="stats" className=" text-gray-700 font-bold">
                 Status:
               </label>
               <input
@@ -88,12 +90,12 @@ const Form = () => {
                 name="stats"
                 checked={formData.stats}
                 onChange={handleChange}
-                className="w-full leading-tight "
+                className=" m-1 leading-tight "
               />
-              <span className="text-sm text-gray-600">Active</span>
+              <span className="p-1 text-sm text-gray-600">Active</span>
             </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex items-center">
           <label htmlFor="mainParent" className="block text-gray-700 font-bold">
               Parente Principal:
           </label>
@@ -103,7 +105,7 @@ const Form = () => {
               name="mainParent"
               checked={formData.mainParent}
               onChange={handleChange}
-              className="w-full leading-tight "
+              className="m-1 leading-tight "
           />
           <span className="text-sm text-gray-600">Active</span>
       </div>
@@ -195,7 +197,7 @@ const Form = () => {
                                               }
                                               className="w-full p-2 mt-2 border rounded-lg max-w-xs"
                                             />
-   <                                          input
+   <                                            input
                                                placeHolder='Quantidade de Parentes'
                                                type="text"
                                                id="amountParent"
@@ -233,7 +235,7 @@ const Form = () => {
                   </div></form>
   </div>
 
-<div className='w=full p-2 '>
+<div className='w=full p-2  w-1/3'>
 <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4  ">
           <label htmlFor="address" className="block text-gray-700 font-bold">
@@ -322,13 +324,11 @@ const Form = () => {
          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
                            Salvar cadastro
                          </button>
-                            <Link to='/list'>
+                            <Link to='/list'   >
                                 <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
                              ir para lista geral
                                </button> </Link>
            </div>
-
-
  </form>
 
 </div>

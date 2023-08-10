@@ -34,13 +34,13 @@ const UserList = () => {
     }, []);
 
     return (
-        <div className="flex flex-col  items-center  bg-indigo-900 h-screen justify-center	  ">
-            <div className='shadow-lg border border-solid border-cyan-300 rounded-3xl p-4 bg-indigo-900'>
-                <h1 className=" font-serif	  p-5 text-teal-50 text-5xl">Lista geral</h1>
-                <ul className=''>
+        <div className="flex   items-center  h-screen justify-center	  ">
+            <div className='flex  flex-col border border-solid border-cyan-300 rounded-3xl p-4 bg-emerald-100'>
+                <h1 className=" font-serif p-5 text-gray-700 text-5xl">Lista geral</h1>
+                <ul >
                     {users.map((user) => (
-                        <li  key={user.id}>
-                            <label className=" flex items-center gap-2 font-serif p-2 text-teal-50 text-2xl">
+                        <li className='ml-4'  key={user.id}>
+                            <label className=" flex items-center gap-2 font-serif p-2 text-gray-700 text-2xl">
                                 <input
                                     type="checkbox"
                                     checked={users.includes(user.id)}
@@ -51,7 +51,7 @@ const UserList = () => {
                         </li>
                     ))}
                 </ul>
-                <button onClick={handleUserListSelect}>View Selected Users</button>
+                <button className='bg-blue-none hover:bg-emerald-200 m-2 p-3 rounded-2xl font-serif  text-gray-700 text-2xl' onClick={handleUserListSelect}>Enviar para entrega </button>
             </div>
         </div>
     );

@@ -14,12 +14,12 @@ export default function Home() {
   return (
       <Router>
               <Routes>
-                  <Route path="/" element={<Form />}>
-                  <Route path="/list" element={<UserList/>} />
+                  <Route path="/" element={<Form />}/>
                   <Route path="/register" element={<Form/>} />
+                      <Route path="/list" element={<UserList/>} />
                   <Route path="/list/profile/:id" element={<UserDetails/>} />
                   <Route path="/list/userListSelect" element={<UserListSelect />} />
-                  </Route>
+
               </Routes>
 
       </Router>

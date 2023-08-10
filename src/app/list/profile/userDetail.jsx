@@ -26,22 +26,55 @@ const UserDetails = () => {
     }
 
     return (
-        <div>
-            <h1>User Details</h1>
-            <p>ID: {user.id}</p>
-            <p>Name: {user.name}</p>
-            <p>Parente principal: {user.mainParent}</p>
-            <p>id do familiar: {user.idMainParent}</p>
-            <p>Phone: {user.infoUsers.phone}</p>
-            <p>Tamanho de roupa: {user.infoUsers.clothingSize}</p>
-            <p>Tamanho de tenis: {user.infoUsers.shoe}</p>
-            <p>Quantidade de familiares: {user.infoUsers.amountParent}</p>
-            <p>Quantidade de crianças: {user.infoUsers.amountChildren}</p>
-            <p>anotação: {user.infoUsers.note}</p>
+        <div className='flex h-max items-center justify-center mt-10 '>
+           <div className='border border-emerald-400 rounded-2xl m-5 p-10'>
+
+            <h1 className='text-gray-700 text-3xl text-center'>Perfil de usuário  </h1>
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+            <p className='p-1 text-xl text-gray-700'>Name: {user.name}</p>
+               </div>
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>ID: {user.id}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>Name: {user.name}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>Parente principal: {user.mainParent}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>id do familiar: {user.idMainParent}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>Phone: {user.infoUsers.phone}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>Tamanho de roupa: {user.infoUsers.clothingSize}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>Tamanho de tenis: {user.infoUsers.shoe}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>Quantidade de familiares: {user.infoUsers.amountParent}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>Quantidade de crianças: {user.infoUsers.amountChildren}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700'>anotação: {user.infoUsers.note}</p>
+               </div>
 
 
-
-            {/* Display other user details as needed */}
+            </div>
         </div>
     );
 };
