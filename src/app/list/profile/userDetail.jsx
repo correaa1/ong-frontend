@@ -31,49 +31,52 @@ const UserDetails = () => {
 
             <h1 className='text-gray-700 text-3xl text-center'>Perfil de usuário  </h1>
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-            <p className='p-1 text-xl text-gray-700'>Name: {user.name}</p>
-               </div>
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>ID: {user.id}</p>
+            <p className='p-1 text-center text-xl text-gray-700'>Name: {user.name}</p>
                </div>
 
+
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>Name: {user.name}</p>
+                   <p className='text-center text-xl text-gray-700'>id do familiar: {user.idMainParent}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>Parente principal: {user.mainParent}</p>
+                   <p className='text-center text-xl text-gray-700'>Phone: {user.infoUsers.phone}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>id do familiar: {user.idMainParent}</p>
+                   <p className='text-center text-gray-700'>Tamanho de roupa: {user.infoUsers.clothingSize}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>Phone: {user.infoUsers.phone}</p>
+                   <p className='text-center text-xl text-gray-700'>Tamanho de tenis: {user.infoUsers.shoe}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>Tamanho de roupa: {user.infoUsers.clothingSize}</p>
+                   <p className='text-center text-xl text-gray-700'>Quantidade de familiares: {user.infoUsers.amountParent}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>Tamanho de tenis: {user.infoUsers.shoe}</p>
+                   <p className='text-center text-xl text-gray-700'>Quantidade de crianças: {user.infoUsers.amountChildren}</p>
+               </div>
+
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl '>
+                   <p className='text-center text-xl text-gray-700'>anotação: {user.infoUsers.note}</p>
+               </div>
+                     <h1 className='text-center text-2xl text-gray-700'>Endereços</h1>
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                        <p className='text-xl text-gray-700 text-center'>{user.address.district}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>Quantidade de familiares: {user.infoUsers.amountParent}</p>
+                   <p className='text-xl text-gray-700 text-center'>{user.address.street}</p>
+               </div>
+               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
+                   <p className='text-xl text-gray-700 text-center'>{user.address.number}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>Quantidade de crianças: {user.infoUsers.amountChildren}</p>
+                   <p className='text-xl text-gray-700 text-center'>{user.address.zipCode}</p>
                </div>
-
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700'>anotação: {user.infoUsers.note}</p>
-               </div>
-
-
             </div>
         </div>
     );

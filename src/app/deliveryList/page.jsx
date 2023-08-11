@@ -1,10 +1,19 @@
+"use client"
 import React from 'react';
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+
+import UserListSelect from "@/app/deliveryList/userListSelect";
 
 const DeliveryList = () => {
      return (
-          <div>
-               <h1>Lista de entregas</h1>
-          </div>
+         <Router>
+             <Routes>
+                 <Route path="/deliveryList" element={<UserListSelect />} />
+
+             </Routes>
+
+         </Router>
+
      );
 };
 

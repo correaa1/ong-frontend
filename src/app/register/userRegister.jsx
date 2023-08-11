@@ -5,6 +5,7 @@ import axios from 'axios';
 import UserList from "@/app/list/userList";
 
 const Form = () => {
+
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -35,6 +36,7 @@ const Form = () => {
     }));
   };
 
+  //function responsavel por fazer um post na api salvando o cadastro do usuário no banco --- tabela Users
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,9 +44,30 @@ const Form = () => {
 
       const apiUrl = 'http://localhost:8080/v1/users';
       const response = await axios.post(apiUrl, formData);
-      console.log('API Response:', response.data);
+        alert('Usuário cadastrado com sucesso!');
+        setFormData({
+            id: '',
+            name: '',
+            stats: false,
+            idMainParent: '',
+            infoUsers: {
+                phone: '',
+                clothingSize: '',
+                shoe: '',
+                amountParent: '',
+                amountChildren: '',
+                note: '',
+            },
+            address: {
+                district: '',
+                street: '',
+                number: '',
+                zipCode: '',
+            },
+        });
     } catch (error) {
       console.error('Error sending data:', error);
+        alert('erro ao cadastrar usuário, revise os campos informados!');
     }
   };
 
@@ -63,7 +86,7 @@ const Form = () => {
                 name="id"
                 value={formData.id}
                 onChange={handleChange}
-                className="w-full p-2 border rounded-lg max-w-xs "
+                className="w-full p-2 border rounded-lg  "
               />
             </div>
             <div className="mb-4">
@@ -76,7 +99,7 @@ const Form = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full p-2 border rounded-lg max-w-xs"
+                className="w-full p-2 border rounded-lg "
               />
             </div>
 
@@ -120,7 +143,7 @@ const Form = () => {
               name="idMainParent"
               value={formData.idMainParent}
               onChange={handleChange}
-              className="w-full p-2 border rounded-lg max-w-xs"
+              className="w-full p-2 border rounded-lg "
           />
       </div>
 
@@ -129,7 +152,7 @@ const Form = () => {
                       Informações do Familiar:
                     </label>
               <input
-                placeHolder='Número do WhatsApp'
+                placeholder='Número do WhatsApp'
                 type="text"
                 id="phone"
                 name="phone"
@@ -143,10 +166,10 @@ const Form = () => {
                     },
                   }))
                 }
-                className="w-full p-2 border rounded-lg max-w-xs "
+                className="w-full p-2 border rounded-lg  "
               />
                     <input
-                      placeHolder='Tamanho da roupa'
+                      placeholder='Tamanho da roupa'
                       type="text"
                       id="clothingSize"
                       name="clothingSize"
@@ -160,11 +183,11 @@ const Form = () => {
                           },
                         }))
                       }
-                      className="w-full p-2 mt-2  border rounded-lg max-w-xs"
+                      className="w-full p-2 mt-2  border rounded-lg "
                     />
 
                                     <input
-                                                  placeHolder='Número de calçado'
+                                                  placeholder='Número de calçado'
                                                   type="text"
                                                   id="shoe"
                                                   name="shoe"
@@ -178,10 +201,10 @@ const Form = () => {
                                                       },
                                                     }))
                                                   }
-                                                  className="w-full p-2 mt-2  border rounded-lg max-w-xs"
+                                                  className="w-full p-2 mt-2  border rounded-lg "
                                                 />
                                     <input
-                                              placeHolder='Quantidade de crianças'
+                                              placeholder='Quantidade de crianças'
                                               type="text"
                                               id="amountChildren"
                                               name="amountChildren"
@@ -195,10 +218,10 @@ const Form = () => {
                                                   },
                                                 }))
                                               }
-                                              className="w-full p-2 mt-2 border rounded-lg max-w-xs"
+                                              className="w-full p-2 mt-2 border rounded-lg "
                                             />
-   <                                            input
-                                               placeHolder='Quantidade de Parentes'
+                                    <input
+                                               placeholder='Quantidade de Parentes'
                                                type="text"
                                                id="amountParent"
                                                name="amountParent"
@@ -212,10 +235,10 @@ const Form = () => {
                                                    },
                                                  }))
                                                }
-                                               className="w-full p-2 mt-2 border rounded-lg max-w-xs"
+                                               className="w-full p-2 mt-2 border rounded-lg "
                                              />
                                     <input
-                                              placeHolder='Digite alguma anotação se quiser'
+                                              placeholder='Digite alguma anotação se quiser'
                                               type="text"
                                               id="note"
                                               name="note"
@@ -229,7 +252,7 @@ const Form = () => {
                                                   },
                                                 }))
                                               }
-                                              className="w-full p-2 mt-2 border rounded-lg max-w-xs"
+                                              className="w-full p-2 mt-2 border rounded-lg "
                                             />
 
                   </div></form>
@@ -255,7 +278,7 @@ const Form = () => {
                     },
                   }))
                 }
-            className="w-full p-2 border rounded-lg max-w-xs "
+            className="w-full p-2 border rounded-lg  "
           />
         </div>
         <div className="mb-4">
@@ -276,7 +299,7 @@ const Form = () => {
                                 },
                               }))
                             }
-            className="w-full p-2 border rounded-lg max-w-xs"
+            className="w-full p-2 border rounded-lg "
           />
 
         </div>
@@ -297,7 +320,7 @@ const Form = () => {
             number: e.target.value,
             },
              }))}
-            className="w-full p-2 border rounded-lg max-w-xs"
+            className="w-full p-2 border rounded-lg "
           />
  </div>
        <div className="mb-4 ">
@@ -317,14 +340,14 @@ const Form = () => {
             zipCode: e.target.value,
             },
              }))}
-             className="w-full p-2 border rounded-lg max-w-xs"
+             className="w-full p-2 border rounded-lg "
            />
   </div>
      <div className="flex items-center space-y-3  flex-col ">
          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
                            Salvar cadastro
                          </button>
-                            <Link to='/list'   >
+                            <Link to='/list' >
                                 <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
                              ir para lista geral
                                </button> </Link>
