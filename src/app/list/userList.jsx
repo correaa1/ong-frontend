@@ -8,6 +8,9 @@ const UserList = () => {
     const navigate = useNavigate();
     const [selectedUsers, setSelectedUsers] = useState([]); // State for selected users
     const [userAddresses, setUserAddresses] = useState({}); // Object to store user addresses
+    const [selectedMonth, setSelectedMonth] = useState("");// object for saves month
+    const [selectedMonths, setSelectedMonths] = useState({});
+
 
     // function abaixo é referente a parte de seleção de usuário, para salvar os dados
     const handleUserToggle = (userId) => {
@@ -22,13 +25,36 @@ const UserList = () => {
         const selectedUserIds = selectedUsers.join(',');
         const selectedAddresses = selectedUsers.map(userId => ({
             address: userAddresses[userId] || {},
-            nameUser: users.find(user => user.id === userId)?.name || ""
+            nameUser: users.find(user => user.id === userId)?.name || "",
+            month: users.find(user => user.id === userId)?.month || ""
+
         }));
 
         try {
             console.log(selectedAddresses)
             await axios.post('http://localhost:8080/v1/delivery', selectedAddresses);
             navigate(`/deliveryList?users=${selectedUserIds}`);
+        } catch (error) {
+            console.error('API Error:', error.message);
+            // Handle error
+        }
+    };
+
+    const handleMonthChange = (userId, month) => {
+        setSelectedMonths((prevSelectedMonths) => ({
+            ...prevSelectedMonths,
+            [userId]: month,
+        }));
+    };
+//função retorna um post do mes selecionado -- tabela Users
+    const handlePostMonth = async (userId, month) => {
+        try {
+            const data = {
+                id: userId,
+                month: month
+            };
+            await axios.post('http://localhost:8080/v1/users', data);
+            console.log(`Mês ${month} enviado para o usuário ${userId}`);
         } catch (error) {
             console.error('API Error:', error.message);
             // Handle error
@@ -62,14 +88,37 @@ const UserList = () => {
                 <h1 className=" font-serif p-5 text-gray-700 text-5xl">Lista geral</h1>
                 <ul >
                     {users.map((user) => (
-                        <li className='ml-4'  key={user.id}>
-                            <label className=" flex items-center gap-2 font-serif p-2 text-gray-700 text-2xl">
+                        <li className=' flex  items-center justify-between'  key={user.id}>
+                            <label className="   font-serif p-2 text-gray-700 text-2xl">
                                 <input
                                     type="checkbox"
                                     checked={selectedUsers.includes(user.id)}
                                     onChange={() => handleUserToggle(user.id)}
                                 />
                                 <Link to={`/list/profile/${user.id}`}> {user.name}</Link>
+
+                            </label>
+                            <label className="   font-serif p-2 text-gray-700 text-2xl" >
+                                <p>{user.month}</p>
+                            </label>
+                            <label >
+                                <select
+                                    value={selectedMonths[user.id] || ""}
+                                    onChange={(e) => handleMonthChange(user.id, e.target.value)}
+                                    className="p-2 border rounded-lg"
+                                >
+
+                                    <option value="">Selecione o mês</option>
+                                    <option value="Jan">Janeiro</option>
+                                    <option value="Fev">Fevereiro</option>
+                                    {/* Adicione mais opções de meses aqui */}
+                                </select>
+                                <button
+                                    onClick={() => handlePostMonth(user.id, selectedMonths[user.id])}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white p-1 m-2 rounded-lg"
+                                >
+                                    Enviar Mês
+                                </button>
                             </label>
                         </li>
                     ))}

@@ -27,7 +27,7 @@ const UserListSelect = () => {
     }, []); // Empty dependency array, so it runs only once on component mount
 
     return (
-        <div className="flex flex-col items-center  justify-center m-4">
+        <div className="flex h-max items-center justify-center mt-10">
             <div className="border border-emerald-300 p-10">
                 <h1 className="m-4 text-center text-5xl font-medium font-serif">Lista de entregas</h1>
                 <ul>

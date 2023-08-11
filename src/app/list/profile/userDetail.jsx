@@ -26,56 +26,56 @@ const UserDetails = () => {
     }
 
     return (
-        <div className='flex h-max items-center justify-center mt-10 '>
-           <div className='border border-emerald-400 rounded-2xl m-5 p-10'>
+        <div className='flex  items-center justify-center mt-10 '>
+           <div className='border border-emerald-400 rounded-2xl m-5 p-10 h-screen'>
 
             <h1 className='text-gray-700 text-3xl text-center'>Perfil de usuário  </h1>
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-            <p className='p-1 text-center text-xl text-gray-700'>Name: {user.name}</p>
+            <p className='p-1 text-center text-xl text-gray-700'>Nome: {user.name}</p>
                </div>
 
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-center text-xl text-gray-700'>id do familiar: {user.idMainParent}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>id do familiar: {user.idMainParent}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-center text-xl text-gray-700'>Phone: {user.infoUsers.phone}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>Phone: {user.infoUsers.phone}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-center text-gray-700'>Tamanho de roupa: {user.infoUsers.clothingSize}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>Tamanho de roupa: {user.infoUsers.clothingSize}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-center text-xl text-gray-700'>Tamanho de tenis: {user.infoUsers.shoe}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>Tamanho de tenis: {user.infoUsers.shoe}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-center text-xl text-gray-700'>Quantidade de familiares: {user.infoUsers.amountParent}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>Quantidade de familiares: {user.infoUsers.amountParent}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-center text-xl text-gray-700'>Quantidade de crianças: {user.infoUsers.amountChildren}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>Quantidade de crianças: {user.infoUsers.amountChildren}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl '>
-                   <p className='text-center text-xl text-gray-700'>anotação: {user.infoUsers.note}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>anotação: {user.infoUsers.note}</p>
                </div>
                      <h1 className='text-center text-2xl text-gray-700'>Endereços</h1>
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                        <p className='text-xl text-gray-700 text-center'>{user.address.district}</p>
+                        <p className='p-1 text-center text-xl text-gray-700'>Bairro: {user.address.district}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700 text-center'>{user.address.street}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'> Rua: {user.address.street}</p>
                </div>
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700 text-center'>{user.address.number}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>Numero da casa: {user.address.number}</p>
                </div>
 
                <div className='border border-emerald-400 p-2 m-5 rounded-2xl'>
-                   <p className='text-xl text-gray-700 text-center'>{user.address.zipCode}</p>
+                   <p className='p-1 text-center text-xl text-gray-700'>Código postal: {user.address.zipCode}</p>
                </div>
             </div>
         </div>
