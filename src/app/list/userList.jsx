@@ -8,8 +8,7 @@ const UserList = () => {
     const navigate = useNavigate();
     const [selectedUsers, setSelectedUsers] = useState([]); // State for selected users
     const [userAddresses, setUserAddresses] = useState({}); // Object to store user addresses
-    const [selectedMonth, setSelectedMonth] = useState("");// object for saves month
-    const [selectedMonths, setSelectedMonths] = useState({});
+
 
 
     // function abaixo é referente a parte de seleção de usuário, para salvar os dados
@@ -40,12 +39,7 @@ const UserList = () => {
         }
     };
 
-    const handleMonthChange = (userId, month) => {
-        setSelectedMonths((prevSelectedMonths) => ({
-            ...prevSelectedMonths,
-            [userId]: month,
-        }));
-    };
+
 //função retorna um post do mes selecionado -- tabela Users
     const handlePostMonth = async (userId, month) => {
         try {
@@ -98,28 +92,16 @@ const UserList = () => {
                                 <Link to={`/list/profile/${user.id}`}> {user.name}</Link>
 
                             </label>
-                            <label className="   font-serif p-2 text-gray-700 text-2xl" >
-                                <p>{user.month}</p>
+                            <label className="font-serif  text-gray-700 text-2xl">
+                                {user.deliveryMonth && (
+                                    <p>- Meses:
+                                        {Object.entries(user.deliveryMonth).map(([month, value]) => (
+                                            value && <span key={month}>{month} </span>
+                                        ))}
+                                    </p>
+                                )}
                             </label>
-                            <label >
-                                <select
-                                    value={selectedMonths[user.id] || ""}
-                                    onChange={(e) => handleMonthChange(user.id, e.target.value)}
-                                    className="p-2 border rounded-lg"
-                                >
 
-                                    <option value="">Selecione o mês</option>
-                                    <option value="Jan">Janeiro</option>
-                                    <option value="Fev">Fevereiro</option>
-                                    {/* Adicione mais opções de meses aqui */}
-                                </select>
-                                <button
-                                    onClick={() => handlePostMonth(user.id, selectedMonths[user.id])}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white p-1 m-2 rounded-lg"
-                                >
-                                    Enviar Mês
-                                </button>
-                            </label>
                         </li>
                     ))}
                 </ul>

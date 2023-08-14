@@ -5,6 +5,7 @@ import {useLocation} from "react-router-dom";
 
 const UserListSelect = () => {
     const [addresses, setAddresses] = useState([]);
+    const [nameUser, setNameUser] = useState(""); // Defina o estado inicial como uma string vazia
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -35,6 +36,15 @@ const UserListSelect = () => {
                         <li key={index}>
                             <div className="m-4 border border-emerald-300 rounded-2xl p-2">
                                 <p className="pl-2 text-2xl font-serif">
+                                    Meses:
+                                    {addressObj.deliveryMonth && (
+                                        <>
+                                            {addressObj.deliveryMonth.january ? "Janeiro" : ""}
+                                            {addressObj.deliveryMonth.february ? "Fevereiro" : ""}
+                                            {addressObj.deliveryMonth.march ? "Março" : ""}
+                                            {/* Adicione mais meses aqui */}
+                                        </>
+                                    )}
                                     Nome: {addressObj.nameUser} - Rua: {addressObj.address.street} - Bairro: {addressObj.address.district} - Número: {addressObj.address.number} - CEP: {addressObj.address.zipCode}
                                 </p>
                             </div>

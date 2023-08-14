@@ -88,6 +88,7 @@ const Form = () => {
                 onChange={handleChange}
                 className="w-full p-2 border rounded-lg  "
               />
+
             </div>
             <div className="mb-4">
               <label htmlFor="name" className="block text-gray-700 font-bold">
