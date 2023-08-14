@@ -82,7 +82,7 @@ const UserList = () => {
                 <h1 className=" font-serif p-5 text-gray-700 text-5xl">Lista geral</h1>
                 <ul >
                     {users.map((user) => (
-                        <li className=' flex  items-center justify-between'  key={user.id}>
+                        <li className=' flex  items-center '  key={user.id}>
                             <label className="   font-serif p-2 text-gray-700 text-2xl">
                                 <input
                                     type="checkbox"
