@@ -15,7 +15,8 @@ const List = () => {
       <Routes>
          <Route path="/list" element={<UserList/>} />
           <Route path="/list/profile/:id" element={<UserDetails/>} />
-          <Route path="/list/userListSelect" element={<UserListSelect />} />
+          <Route path="/deliveryList" element={<UserListSelect />} />
+
       </Routes>
 
 </Router>

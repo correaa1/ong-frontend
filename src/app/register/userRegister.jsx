@@ -91,10 +91,11 @@ const Form = () => {
 
             </div>
             <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-bold">
+              <label  htmlFor="name" className="block text-gray-700 font-bold">
                 Nome:
               </label>
               <input
+
                 type="text"
                 id="name"
                 name="name"

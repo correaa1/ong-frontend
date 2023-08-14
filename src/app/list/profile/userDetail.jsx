@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import {MdCancel} from "react-icons/md";
 import {BsCheckCircle, BsFillCheckCircleFill, BsXCircle} from "react-icons/bs";
 import {FiEdit} from "react-icons/fi";
+import {Button} from "react-bootstrap";
 
 const UserDetails = () => {
     const [user, setUser] = useState(null);
@@ -109,224 +110,242 @@ const UserDetails = () => {
     return (
 
 
-        <div className='flex  items-center justify-center mt-10 '>
+        <div className='flex bg-gray-300  items-center justify-center pt-10 '>
 
-            <div>
-                {isEditing ? (
-                    <div className='flex'>
-                <span onClick={() => startEditing()}>
-                <BsFillCheckCircleFill  onClick={saveChanges} ></BsFillCheckCircleFill>
-                </span>
-                        <span onClick={() => cancelEditing()}>
-                <MdCancel  onClick={cancelEditing} ></MdCancel>
-                </span>
-                    </div>
-
-                ) : (
-                    <span className=' text-gray-700 text-2xl flex items-center gap-1' onClick={startEditing}>
-               Editar <FiEdit/>
-            </span>
-                )}
-            </div>
-
-           <div className='border border-emerald-400 rounded-2xl m-5 p-10 '>
-            <h1 className='text-gray-700 text-3xl text-center'>Perfil de usuário  </h1>
-               <div className=' border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center '>
-                   <p className='p-1  text-xl text-gray-700  '>
+           <div className='border-2 border-gray-700 rounded-2xl m-5 p-10 '>
+            <h1 className='text-gray-700 text-3xl  text-center'>Perfil de usuário  </h1>
+               <div className='   p-2 m-5 rounded-2xl flex  justify-center '>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Nome: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.name || ''}
                            onChange={(e) => handleEditChange('name', e.target.value)}
+                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
                        />
                    ) : (
                        <span>{user.name}</span>
                    )}
-                   </p>
+                   </label>
                </div>
 
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className='block  mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Id do familiar: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.idMainParent || ''}
                            onChange={(e) => handleEditChange('idMainParent', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.idMainParent}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Stats: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.stats || ''}
                            onChange={(e) => handleEditChange('stats', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.stats}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        WhatsApp: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.infoUsers?.phone || ''}
                            onChange={(e) => handleEditChange('infoUsers.phone', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.infoUsers.phone}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Tamanho de roupa: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.infoUsers.clothingSize || ''}
                            onChange={(e) => handleEditChange('infoUsers.clothingSize', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.infoUsers.clothingSize}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Tamanho de tenis: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.infoUsers.shoe || ''}
                            onChange={(e) => handleEditChange('infoUsers.shoe', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.infoUsers.shoe}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Quantidade de familiares: {isEditing ? (
                        <input
                            type="number"
                            value={editedUser.infoUsers.amountParent || ''}
                            onChange={(e) => handleEditChange('infoUsers.amountParent', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.infoUsers.amountParent}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center '>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center '>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Id do familiar: {isEditing ? (
                        <input
                            type="number"
                            value={editedUser.infoUsers.amountChildren || ''}
                            onChange={(e) => handleEditChange('infoUsers.amountChildren', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.infoUsers.amountChildren}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
-                     <h1 className='text-center text-2xl text-gray-700'>Endereços</h1>
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700'>
+               <h1 className='text-center text-2xl text-gray-700'>Endereços</h1>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Bairro: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.address?.district || ''}
                            onChange={(e) => handleEditChange('address.district', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.address?.district || 'N/A'}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        Rua: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.address?.street || ''}
                            onChange={(e) => handleEditChange('address.street', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.address?.street}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+
                        Numero da casa: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.address?.number || ''}
                            onChange={(e) => handleEditChange('address.number', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.address?.number}</span>
                    )}
-                   </p>
+                   </label>
 
                </div>
 
-               <div className='border border-emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <p className='p-1  text-xl text-gray-700  '>
+               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
                        CEP: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.address?.zipCode || ''}
                            onChange={(e) => handleEditChange('address.zipCode', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.address?.zipCode}</span>
                    )}
-                   </p>
+                   </label>
                </div>
-               <div className="border border-emerald-400 p-2 m-5 rounded-2xl  ">
-                   <p className='p-1 text-xl text-gray-700'>
-                       Meses:
-                       {user.deliveryMonth && Object.entries(user.deliveryMonth).map(([month, value]) => (
-                           value && <span key={month}> {month} </span>
-                       ))}
-                   </p>
+               <div className="    rounded-2xl flex justify-evenly   border-2 border-gray-700 ">
+                  <div className=' m-2 flex flex-col   justify-center'>
+                      <h1 className=' block mb-2  text-center text-xl text-gray-700 font-medium  dark:text-white '>
+                          Recebeu entrega em:
+                      </h1>
+                  <label className=' block mb-2 text-2xl text-center font-medium text-gray-900 dark:text-white '> {user.deliveryMonth && Object.entries(user.deliveryMonth).map(([month, value]) => (
+                              value && <span key={month}> {month} </span>
+                          ))}
+                      </label>
+                  </div>
+                   <div className='  p-4 '>
                        {editedUser.deliveryMonth && Object.entries(editedUser.deliveryMonth).map(([month, value]) => (
                            <span
-                               className=' flex  p-1 gap-2'
+                               className=' flex   gap-2 text-2xl text-gray-700 '
                                key={month}
                                onClick={() => toggleMonthDelivery(month)}
                                style={{ cursor: 'pointer' }}
                            >
-                {value ? <BsCheckCircle /> : <BsXCircle />} {month}
+                {value ?  <BsCheckCircle /> : <BsXCircle />} {month}
             </span>
-                       ))}
+                       ))}</div>
 
                </div>
+               <div className='flex pt-6 justify-center items-center'>
+                   {isEditing ? (
+                       <div className='flex   gap-3'>
+                <Button className='bg-green-500 text-white px-4 py-2 rounded w-11/12' onClick={() => startEditing()}>
+                <BsFillCheckCircleFill  onClick={saveChanges} ></BsFillCheckCircleFill>
+                </Button>
+                           <Button className='bg-red-500 text-white px-4 py-2 rounded' onClick={() => cancelEditing()}>
+                <MdCancel  onClick={cancelEditing} ></MdCancel>
+                </Button>
+                       </div>
+
+                   ) : (
+                       <Button className=" justify-center rounded-2xl w-11/12 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4  flex items-center" onClick={startEditing}>
+                           <span className=' flex items-center gap-2'> Editar <FiEdit/></span>
+                       </Button>
+                   )}
+               </div>
+
             </div>
         </div>
     );
