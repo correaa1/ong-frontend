@@ -1,21 +1,22 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {MdCancel} from "react-icons/md";
 import {BsCheckCircle, BsFillCheckCircleFill, BsXCircle} from "react-icons/bs";
 import {FiEdit} from "react-icons/fi";
 import {Button} from "react-bootstrap";
 
 const UserDetails = () => {
+
     const [user, setUser] = useState(null);
     const { id } = useParams();
     const [isEditing, setIsEditing] = useState(false); // Controla o modo de edição
     const [editedUser, setEditedUser] = useState({});
     const [editingField, setEditingField] = useState(null);
+    console.log("editedUser", editedUser); // Add this log
+    console.log("editedUser.month", editedUser.month);
 
-
-    console.log("user",user)
     const confirmEditing = async () => {
         try {
             // Fazer uma requisição PUT para a API com as informações em editedUser
@@ -33,7 +34,7 @@ const UserDetails = () => {
             try {
                 const response = await axios.get(`http://localhost:8080/v1/users/${id}`);
                 setUser(response.data);
-
+                setEditedUser(response.data);
             } catch (error) {
                 console.error('API Error:', error.message);
                 setUser(null);
@@ -46,11 +47,23 @@ const UserDetails = () => {
     if (!user) {
         return <div>User not found.</div>;
     }
+    const toggleMonthDelivery = (month) => {
+        setEditedUser((prevEditedUser) => {
+            return {
+                ...prevEditedUser,
+                month: {
+                    ...prevEditedUser.month,
+                    [month]: !prevEditedUser.month[month],
+                },
+            };
+        });
+    };
 
 
     const startEditing = () => {
         setEditedUser({ ...user }); // Inicializa as edições com os dados atuais do usuário
         setIsEditing(true); // Ativa o modo de edição
+        console.log("editUser",editedUser)
     };
 
     const cancelEditing = () => {
@@ -94,24 +107,20 @@ const UserDetails = () => {
             // Trate os erros de acordo
         }
     };
-    const toggleMonthDelivery = (month) => {
-        setEditedUser((prevEditedUser) => {
-            const updatedDeliveryMonth = {
-                ...prevEditedUser.deliveryMonth,
-                [month]: !prevEditedUser.deliveryMonth[month],
-            };
 
-            return {
-                ...prevEditedUser,
-                deliveryMonth: updatedDeliveryMonth,
-            };
-        });
-    };
     return (
 
 
-        <div className='flex bg-gray-300  items-center justify-center pt-10 '>
+        <div className='flex flex-col bg-gray-300  items-center justify-center  '>
+            <div className='flex ml-6 w-full pl-4'>
+                <ul className="nav p-2  2">
+                    <li className="nav-item p-2 font-serif font-medium text-xl">
+                        <Link className='bg-blue-none hover:bg-gray-400 p-3 rounded-2xl' to="/list">Voltar</Link>
+                    </li>
 
+
+                </ul>
+            </div>
            <div className='border-2 border-gray-700 rounded-2xl m-5 p-10 '>
             <h1 className='text-gray-700 text-3xl  text-center'>Perfil de usuário  </h1>
                <div className='   p-2 m-5 rounded-2xl flex  justify-center '>
@@ -211,9 +220,9 @@ const UserDetails = () => {
 
                </div>
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
+               <div className=' p-2 m-5 rounded-2xl flex  justify-center '>
                    <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
-                       Quantidade de familiares: {isEditing ? (
+                       total de familiares: {isEditing ? (
                        <input
                            type="number"
                            value={editedUser.infoUsers.amountParent || ''}
@@ -305,38 +314,42 @@ const UserDetails = () => {
                    )}
                    </label>
                </div>
-               <div className="    rounded-2xl flex justify-evenly   border-2 border-gray-700 ">
-                  <div className=' m-2 flex flex-col   justify-center'>
-                      <h1 className=' block mb-2  text-center text-xl text-gray-700 font-medium  dark:text-white '>
-                          Recebeu entrega em:
-                      </h1>
-                  <label className=' block mb-2 text-2xl text-center font-medium text-gray-900 dark:text-white '> {user.deliveryMonth && Object.entries(user.deliveryMonth).map(([month, value]) => (
-                              value && <span key={month}> {month} </span>
-                          ))}
-                      </label>
-                  </div>
-                   <div className='  p-4 '>
-                       {editedUser.deliveryMonth && Object.entries(editedUser.deliveryMonth).map(([month, value]) => (
-                           <span
-                               className=' flex   gap-2 text-2xl text-gray-700 '
-                               key={month}
-                               onClick={() => toggleMonthDelivery(month)}
-                               style={{ cursor: 'pointer' }}
-                           >
-                {value ?  <BsCheckCircle /> : <BsXCircle />} {month}
-            </span>
-                       ))}</div>
 
+               <div>
+                   <h1>Recebeu entrega em:</h1>
+                   {isEditing ? (
+                       <div>
+                           <h1>Recebeu entrega em:</h1>
+                           {Object.entries(editedUser.month).map(([month, value]) => (
+                               <label key={month} className="month-checkbox">
+                                   <input
+                                       type="checkbox"
+                                       checked={value}
+                                       onChange={() => toggleMonthDelivery(month)}
+                                   />
+                                   {month}
+                               </label>
+                           ))}
+                       </div>
+                   ) : (
+                       <div>
+                           <h1>Meses com Entrega:</h1>
+                           {Object.entries(user.month).map(([month, value]) => (
+                               value && <span key={month}>{month}, </span>
+                           ))}
+                       </div>
+                   )}
                </div>
+
                <div className='flex pt-6 justify-center items-center'>
                    {isEditing ? (
                        <div className='flex   gap-3'>
-                <Button className='bg-green-500 text-white px-4 py-2 rounded w-11/12' onClick={() => startEditing()}>
-                <BsFillCheckCircleFill  onClick={saveChanges} ></BsFillCheckCircleFill>
-                </Button>
+                           <Button className='bg-green-500 text-white px-4 py-2 rounded w-11/12' onClick={() => startEditing()}>
+                               <BsFillCheckCircleFill  onClick={saveChanges} ></BsFillCheckCircleFill>
+                           </Button>
                            <Button className='bg-red-500 text-white px-4 py-2 rounded' onClick={() => cancelEditing()}>
-                <MdCancel  onClick={cancelEditing} ></MdCancel>
-                </Button>
+                               <MdCancel  onClick={cancelEditing} ></MdCancel>
+                           </Button>
                        </div>
 
                    ) : (
@@ -345,7 +358,6 @@ const UserDetails = () => {
                        </Button>
                    )}
                </div>
-
             </div>
         </div>
     );

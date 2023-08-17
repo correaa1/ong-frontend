@@ -4,7 +4,22 @@ import { useState } from 'react';
 import axios from 'axios';
 import UserList from "@/app/list/userList";
 
+const initialMonthState = {
+    janeiro: false,
+    fevereiro: false,
+    marco: false,
+    abril: false,
+    maio: false,
+    junho: false,
+    julho: false,
+    agosto: false,
+    setembro: false,
+    outubro: false,
+    novembro: false,
+    dezembro: false,
+};
 const Form = () => {
+    const [monthState, setMonthState] = useState(initialMonthState);
 
   const [formData, setFormData] = useState({
     id: '',
@@ -25,6 +40,7 @@ const Form = () => {
     number:'',
     zipCode:'',
     },
+    month:monthState
 
   });
 
@@ -41,9 +57,15 @@ const Form = () => {
     e.preventDefault();
 
     try {
+        console.log('monthState before API call:', monthState);
+        console.log('formData before API call:', formData);
 
       const apiUrl = 'http://localhost:8080/v1/users';
-      const response = await axios.post(apiUrl, formData);
+        const response = await axios.post(apiUrl, {
+            ...formData, // Spread the existing formData
+            month: { ...monthState }, // Spread the monthState to create a new object
+        });
+
         alert('Usuário cadastrado com sucesso!');
         setFormData({
             id: '',
@@ -64,18 +86,35 @@ const Form = () => {
                 number: '',
                 zipCode: '',
             },
+            month:monthState,
+
         });
+        setMonthState(initialMonthState);
+        console.log("initialMonthState", initialMonthState);
+        console.log("formdata", formData);
+
     } catch (error) {
       console.error('Error sending data:', error);
         alert('erro ao cadastrar usuário, revise os campos informados!');
     }
+
   };
 
-  return (
-  <div className=" justify-center flex flex-col items-center">
+    const handleMonthChange = (month) => {
+        console.log('Before change:', monthState);
+        setMonthState((prevMonthState) => ({
+            ...prevMonthState,
+            [month]: !prevMonthState[month],
+        }));
+        console.log('After change:', monthState);
+    };
+
+
+    return (
+  <div className=" bg-gray-300 justify-center flex flex-col items-center">
       <h1 className='m-4 font-sans font-medium p-2 text-gray-700 text-3xl'>Cadastrar novo usuário</h1>
   <div className='p-2  w-1/3 '>
-  <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <form onSubmit={handleSubmit} className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
               <label htmlFor="id" className="block text-gray-700 text-sm font-bold mb-2 ">
                 ID:
@@ -261,7 +300,7 @@ const Form = () => {
   </div>
 
 <div className='w=full p-2  w-1/3'>
-<form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+<form onSubmit={handleSubmit} className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4  ">
           <label htmlFor="address" className="block text-gray-700 font-bold">
             Bairro:
@@ -345,6 +384,28 @@ const Form = () => {
              className="w-full p-2 border rounded-lg "
            />
   </div>
+
+    <div className="mb-4 flex flex-col">
+        <label htmlFor="infoUsers" className="block text-gray-700 font-bold">
+            Meses:
+        </label>
+        {Object.keys(initialMonthState).map((month) => (
+            <div key={month} className="flex items-center">
+                <input
+                    type="checkbox"
+                    id={month}
+                    name={month}
+                    checked={monthState[month]}
+                    onChange={() => handleMonthChange(month)}
+                    className="m-1 leading-tight"
+                />
+                <label htmlFor={month} className="ml-1 text-sm text-gray-600">
+                    {month}
+                </label>
+            </div>
+        ))}
+    </div>
+
      <div className="flex items-center space-y-3  flex-col ">
          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
                            Salvar cadastro

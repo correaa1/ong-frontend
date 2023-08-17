@@ -2,9 +2,9 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import UserList from "@/app/list/userList";
-import Form from "@/app/register/userRegister";
 import UserDetails from "@/app/list/profile/userDetail";
 import UserListSelect from "@/app/deliveryList/userListSelect";
+import UserRegister from "@/app/register/userRegister";
 
 
 
@@ -15,6 +15,7 @@ const List = () => {
       <Routes>
          <Route path="/list" element={<UserList/>} />
           <Route path="/list/profile/:id" element={<UserDetails/>} />
+          <Route path="/register" element={<UserRegister/>} />
           <Route path="/deliveryList" element={<UserListSelect />} />
 
       </Routes>
