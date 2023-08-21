@@ -45,24 +45,12 @@ const UserList = () => {
     };
 
 
-//função retorna um post do mes selecionado -- tabela Users
-    const handlePostMonth = async (userId, month) => {
-        try {
-            const data = {
-                id: userId,
-                month: month,
-            };
-            await axios.post('http://localhost:8080/v1/users', data);
-            console.log(`Mês ${month} enviado para o usuário ${userId}`);
-        } catch (error) {
-            console.error('API Error:', error.message);
-            // Handle error
-        }
-    };
+
+
 
     // useEffect basico responsavel por fazer um get na url e listar todos os usuários
     useEffect(() => {
-        const apiUrl = 'http://localhost:8080/v1/users';
+        const apiUrl = 'http://localhost:8080/v1/users/stats';
 
         axios
             .get(apiUrl)
@@ -108,15 +96,6 @@ const UserList = () => {
                                 />
                                 <Link to={`/list/profile/${user.id}`}> {user.name}</Link>
 
-                            </label>
-                            <label className="font-serif  text-gray-700 text-2xl">
-                                {user.deliveryMonth && (
-                                    <p className='text-2xl text-gray-700 font-medium'>- Recebeu entrega nos meses:
-                                        {Object.entries(user.deliveryMonth).map(([month, value]) => (
-                                            value && <span className='text-2xl text-black font-medium' key={month}> {month} </span>
-                                        ))}
-                                    </p>
-                                )}
                             </label>
 
                         </li>
