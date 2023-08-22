@@ -1,5 +1,5 @@
 "use client"
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,7 +20,7 @@ const initialMonthState = {
 };
 const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
     const [monthState, setMonthState] = useState(initialMonthState);
-
+    const navigate = useNavigate()
     const [validationErrors, setValidationErrors] = useState({
         name: '',
         age: '',
@@ -86,7 +86,11 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
           });
           return; // Impede o envio se houver erros de validação
       }
+      const navigateUrl = mainParent
+          ? `/register                                                              `
+          : `/list/profile/${idMainParent}`;
 
+      navigate(navigateUrl, { replace: true });
 
     try {
         console.log('monthState before API call:', monthState);
@@ -100,7 +104,6 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
         toast.success('Formulário enviado com sucesso!', {
             position: toast.POSITION.TOP_CENTER,
         });
-
 
 
 
@@ -134,7 +137,7 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
 
     } catch (error) {
       console.error('Error sending data:', error);
-        setFormErrorMessage('Erro ao cadastrar usuário, revise os campos informados!');
+        alert('Erro ao cadastrar usuário, revise os campos informados!');
     }
 
   };
@@ -416,7 +419,7 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
 
     <div className="mb-4 flex flex-col">
         <label htmlFor="infoUsers" className="block text-gray-700 font-bold">
-            Meses:
+            Meses que já recebeu:
         </label>
         {Object.keys(initialMonthState).map((month) => (
             <div key={month} className="flex items-center">
@@ -426,9 +429,9 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
                     name={month}
                     checked={monthState[month]}
                     onChange={() => handleMonthChange(month)}
-                    className="m-1 leading-tight"
+                    className="m-1 leading-tight  "
                 />
-                <label  htmlFor={month} className="ml-1 text-gray-600 text-base	 font-serif ">
+                <label  htmlFor={month} className="ml-1 text-gray-600 text-xl  font-serif ">
                     {month}
                 </label>
             </div>

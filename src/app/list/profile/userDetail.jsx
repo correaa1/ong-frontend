@@ -7,6 +7,7 @@ import {BsCheckCircle, BsFillCheckCircleFill, BsPersonBadge, BsXCircle} from "re
 import {FiEdit} from "react-icons/fi";
 import {Button, Alert} from "react-bootstrap";
 import {FcSearch} from "react-icons/fc";
+import {AiOutlineUsergroupAdd} from "react-icons/ai";
 
 const UserDetails = () => {
 
@@ -122,24 +123,19 @@ const UserDetails = () => {
     return (
 
 
-        <div className='flex  bg-gray-300  items-center justify-center gap-5  '>
-            <div className='flex flex-col'>
-            <div className='flex ml-6 w-full pl-4'>
-                <ul className="nav p-2  2">
-                    <li className="nav-item p-2 font-serif font-medium text-xl">
-                        <Link className='bg-blue-none hover:bg-gray-400 p-3 rounded-2xl' to="/list">Voltar</Link>
-                    </li>
-
-
-                </ul>
+        <div className='flex flex-col  bg-gray-300  items-center justify-center gap-5  '>
+            <div className='flex p-5 w-full'>
+                <Link className=' bg-cyan-700 hover:bg-cyan-600   p-2 text-white rounded-2xl' to="/list">Voltar</Link>
             </div>
 
+
+            <div className='flex flex-col'>
 
            <div className='border-2 border-gray-700 rounded-2xl m-5 p-10  '>
             <h1 className='text-gray-700 text-3xl  text-center'>Perfil de usuário  </h1>
 
-               <div className='   p-2 m-5 rounded-2xl flex  justify-center '>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='   p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700  '>
+                   <label className='text-xl font-medium text-white '>
 
                        Nome: {isEditing ? (
 
@@ -157,8 +153,8 @@ const UserDetails = () => {
                    </label>
                </div>
 
-               <div className='   p-2 m-5 rounded-2xl flex  justify-center '>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        Idade: {isEditing ? (
                        <input
                            type="number"
@@ -175,40 +171,11 @@ const UserDetails = () => {
 
 
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className='block  mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
-                       Id do Principal familiar: {isEditing ?
-                       (   <input
-                           type="text"
-                           value={editedUser.idMainParent || ''}
-                           onChange={(e) => handleEditChange('idMainParent', e.target.value)}
-                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
-                       />
-                   ) : (
-                       <span>{user.idMainParent}</span>
-                   )}
-                   </label>
 
-               </div>
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className='block  mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
-                       Id do familiar: {isEditing ? (
-                       <input
-                           type="text"
-                           value={editedUser.idMainParentRelational || ''}
-                           onChange={(e) => handleEditChange('idMainParentRelational', e.target.value)}
-                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
-                       />
-                   ) : (
-                       <span>{user.idMainParentRelational}</span>
-                   )}
-                   </label>
 
-               </div>
-
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className=' p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        Stats: {isEditing ? (
                        <input
 
@@ -224,8 +191,8 @@ const UserDetails = () => {
 
                </div>
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        WhatsApp: {isEditing ? (
                        <input
                            type="text"
@@ -240,8 +207,8 @@ const UserDetails = () => {
 
                </div>
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className=' p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        Tamanho de roupa: {isEditing ? (
                        <input
                            type="text"
@@ -256,8 +223,8 @@ const UserDetails = () => {
 
                </div>
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        Tamanho de tenis: {isEditing ? (
                        <input
                            type="text"
@@ -272,8 +239,8 @@ const UserDetails = () => {
 
                </div>
 
-               <div className=' p-2 m-5 rounded-2xl flex  justify-center '>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700 '>
+                   <label className=' text-xl font-medium text-white '>
                        total de familiares: {isEditing ? (
                        <input
                            type="number"
@@ -288,15 +255,31 @@ const UserDetails = () => {
 
                </div>
 
-               <h1 className='text-center text-2xl text-gray-700'>Endereços</h1>
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className=' p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700 '>
+                   <label className=' text-xl font-medium text-white '>
+                       Observações: {isEditing ? (
+                       <input
+                           type="text"
+                           value={editedUser.infoUsers.note || ''}
+                           onChange={(e) => handleEditChange('infoUsers.note', e.target.value)}
+                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
+                       />
+                   ) : (
+                       <span>{user.infoUsers.note}</span>
+                   )}
+                   </label>
+
+               </div>
+
+               <h1 className='text-center text-2xl  text-gray-700'>Endereços</h1>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        Bairro: {isEditing ? (
                        <input
                            type="text"
                            value={editedUser.address?.district || ''}
                            onChange={(e) => handleEditChange('address.district', e.target.value)}
-                           className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
+                           className="bg-gray-50  text-white text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
                        <span>{user.address?.district || 'N/A'}</span>
@@ -305,8 +288,8 @@ const UserDetails = () => {
 
                </div>
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        Rua: {isEditing ? (
                        <input
                            type="text"
@@ -320,8 +303,8 @@ const UserDetails = () => {
                    </label>
 
                </div>
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
 
                        Numero da casa: {isEditing ? (
                        <input
@@ -337,8 +320,8 @@ const UserDetails = () => {
 
                </div>
 
-               <div className=' -emerald-400 p-2 m-5 rounded-2xl flex  justify-center'>
-                   <label className=' block mb-2 text-2xl font-medium text-gray-900 dark:text-white '>
+               <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                   <label className=' text-xl font-medium text-white '>
                        CEP: {isEditing ? (
                        <input
                            type="text"
@@ -357,8 +340,9 @@ const UserDetails = () => {
                        <div>
                            <h1>Recebeu entrega em:</h1>
                            {Object.entries(editedUser.month).map(([month, value]) => (
-                               <label key={month} className="month-checkbox">
+                               <label key={month} className="month-checkbox ">
                                    <input
+
                                        type="checkbox"
                                        checked={value}
                                        onChange={() => toggleMonthDelivery(month)}
@@ -389,7 +373,7 @@ const UserDetails = () => {
                        </div>
 
                    ) : (
-                       <Button className=" justify-center rounded-2xl w-11/12 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4  flex items-center" onClick={startEditing}>
+                       <Button className=" justify-center rounded-2xl w-11/12 bg-cyan-700 hover:bg-cyan-600  text-white font-bold py-2 px-4  flex items-center" onClick={startEditing}>
                            <span className=' flex items-center gap-2'> Editar <FiEdit/></span>
                        </Button>
                    )}
@@ -400,24 +384,26 @@ const UserDetails = () => {
             <div className='flex  flex-col items-center border-2 border-gray-700 rounded-2xl m-5 p-10 '>
                 <h1 className='text-gray-700 text-3xl  text-center'>Familiares associado a este usuario</h1>
 
-                    <Button className='bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded w-12' onClick={fetchFamilyMembers}><BsPersonBadge className='w-full'/></Button>
+                  <div className='flex p-6 gap-2'>  <Button className='bg-cyan-700 hover:bg-cyan-400 text-white px-4 py-2 rounded w-12'
+                  onClick={fetchFamilyMembers}><BsPersonBadge className='w-full'/></Button>
 
-                    <div >
+                <Button className='bg-cyan-700 hover:bg-cyan-400 text-white px-4 py-2 rounded w-12' onClick={() => navigate(`/familyRegister/${id}`)}>
+                    <AiOutlineUsergroupAdd/>
+                </Button></div>
+
+                    <div className=''>
                         {familyMembers.map((familyMember) => (
                             <div key={familyMember.id}>
-                              <div className='flex justify-stretch items-center gap-4'>
-                                  <p className=' text-2xl font-serif '>Nome: {familyMember.name}  </p>
-                                  <p className=' text-2xl font-serif '>Id do familiar: {familyMember.idMainParent}  </p>
-                                <p className='p-2 text-2xl font-serif '>Tamanho de roupa: {familyMember.infoUsers?.clothingSize} </p>
-                                  <p className='text-2xl font-serif '>Tamanho de tenis: {familyMember.infoUsers?.shoe}  </p>
-                                  <p className='text-2xl font-serif '>Anotação: {familyMember.infoUsers?.note} </p>
+                              <div className='flex-wrap	w-full  border border-gray-500 rounded-2xl p-5 bg-cyan-700 m-2 items-center gap-4'>
+                               <p className='  text-xl text-white font-serif p-2 '>Nome: {familyMember.name}  </p>
+                                <p className=' text-xl text-white font-serif p-2 '>Tamanho de roupa: {familyMember.infoUsers?.clothingSize} </p>
+                                  <p className='text-xl text-white font-serif p-2 '>Tamanho de tenis: {familyMember.infoUsers?.shoe}  </p>
+                                  <p className='text-xl text-white font-serif p-2'>Anotação: {familyMember.infoUsers?.note} </p>
                               </div>
                                 {/* Display other family member details as needed */}
                             </div>
                         ))}
-                        <button onClick={() => navigate(`/familyRegister/${id}`)}>
-                            Cadastrar Familiar
-                        </button>
+
                     </div>
 
                 </div>
