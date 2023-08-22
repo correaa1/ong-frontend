@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Link, useParams} from 'react-router-dom';
+import {useNavigate,Link, useParams} from 'react-router-dom';
 import {MdCancel} from "react-icons/md";
 import {BsCheckCircle, BsFillCheckCircleFill, BsPersonBadge, BsXCircle} from "react-icons/bs";
 import {FiEdit} from "react-icons/fi";
@@ -15,6 +15,8 @@ const UserDetails = () => {
     const [isEditing, setIsEditing] = useState(false); // Controla o modo de edição
     const [editedUser, setEditedUser] = useState({});
     const [editingField, setEditingField] = useState(null);
+    const navigate = useNavigate();
+
     console.log("editedUser", editedUser); // Add this log
     console.log("editedUser.month", editedUser.month);
 
@@ -23,7 +25,7 @@ const UserDetails = () => {
     const [familyMembers, setFamilyMembers] = useState([]); // Step 1
     const fetchFamilyMembers = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/users/family?idMainParentRelational=${user.idMainParent}`);
+            const response = await fetch(`http://localhost:8080/v1/users?idMainParent=${user.id}`);
             const data = await response.json();
             setFamilyMembers(data);
 
@@ -400,12 +402,12 @@ const UserDetails = () => {
 
                     <Button className='bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded w-12' onClick={fetchFamilyMembers}><BsPersonBadge className='w-full'/></Button>
 
-                    <div>
+                    <div >
                         {familyMembers.map((familyMember) => (
                             <div key={familyMember.id}>
                               <div className='flex justify-stretch items-center gap-4'>
                                   <p className=' text-2xl font-serif '>Nome: {familyMember.name}  </p>
-                                  <p className=' text-2xl font-serif '>Id do familiar: {familyMember.idMainParentRelational}  </p>
+                                  <p className=' text-2xl font-serif '>Id do familiar: {familyMember.idMainParent}  </p>
                                 <p className='p-2 text-2xl font-serif '>Tamanho de roupa: {familyMember.infoUsers?.clothingSize} </p>
                                   <p className='text-2xl font-serif '>Tamanho de tenis: {familyMember.infoUsers?.shoe}  </p>
                                   <p className='text-2xl font-serif '>Anotação: {familyMember.infoUsers?.note} </p>
@@ -413,7 +415,11 @@ const UserDetails = () => {
                                 {/* Display other family member details as needed */}
                             </div>
                         ))}
+                        <button onClick={() => navigate(`/familyRegister/${id}`)}>
+                            Cadastrar Familiar
+                        </button>
                     </div>
+
                 </div>
 
 

@@ -6,6 +6,7 @@ import UserList from "@/app/list/userList";
 import UserDetails from "@/app/list/profile/userDetail";
 import UserListSelect from "@/app/deliveryList/userListSelect";
 import React from "react";
+import AddFamilyMemberPage from "@/app/familyRegister/page";
 
 
 export default function Home() {
@@ -17,8 +18,8 @@ export default function Home() {
                   <Route path="/register" element={<Form/>} />
                   <Route path="/list" element={<UserList/>} />
                   <Route path="/list/profile/:id" element={<UserDetails/>} />
+                  <Route path="/familyRegister/:id" element={<AddFamilyMemberPage/>} />
                   <Route path="/deliveryList/" element={<UserListSelect />} />
-
               </Routes>
 
       </Router>

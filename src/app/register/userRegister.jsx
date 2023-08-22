@@ -18,21 +18,22 @@ const initialMonthState = {
     novembro: false,
     dezembro: false,
 };
-const Form = () => {
+const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
     const [monthState, setMonthState] = useState(initialMonthState);
-    const [idMainParentRelationalEnabled, setIdMainParentRelationalEnabled] = useState(true);
 
     const [validationErrors, setValidationErrors] = useState({
         name: '',
         age: '',
         // Outros campos do formulário
     });
+
   const [formData, setFormData] = useState({
+
     name: '',
     stats: true,
-    mainParent:false,
-    idMainParent:'',
-    idMainParentRelational:'',
+    mainParent: mainParent,
+    idMainParent:idMainParent,
+
     age:'',
     infoUsers: {
       phone: '',
@@ -50,28 +51,20 @@ const Form = () => {
     },
     month:monthState
 
+
+
   });
 
-  const handleChange = (e) => {
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
 
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
 
-    const { name, value, type, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: type === 'checkbox' ? checked : value,
-    }));console.log("formDAta",formData)
-      if (name === 'mainParent') {
-          setFormData((prevFormData) => ({
-              ...prevFormData,
-              mainParent: checked,
-              idMainParentRelational: checked ? '' : prevFormData.idMainParentRelational, // Limpa o campo quando mainParent for true
-              idMainParent: !checked ? '' : prevFormData.idMainParent,
-
-          }));
-          setIdMainParentRelationalEnabled(!checked);
-
-      }
-  };
+        console.log("formData inside handleChange:", formData);
+    };
 
 
   //function responsavel por fazer um post na api salvando o cadastro do usuário no banco --- tabela Users
@@ -94,12 +87,7 @@ const Form = () => {
           return; // Impede o envio se houver erros de validação
       }
 
-      if (!formData.idMainParent && formData.idMainParentRelational === '') {
-          toast.error('Por favor, corrija os erros de validação antes de salvar.', {
-              position: toast.POSITION.TOP_CENTER,
-          });
-          return; // Impede o envio se houver erros de validação
-      }
+
     try {
         console.log('monthState before API call:', monthState);
         console.log('formData before API call:', formData);
@@ -109,7 +97,6 @@ const Form = () => {
             ...formData, // Spread the existing formData
             month: { ...monthState }, // Spread the monthState to create a new object
         });
-
         toast.success('Formulário enviado com sucesso!', {
             position: toast.POSITION.TOP_CENTER,
         });
@@ -120,10 +107,9 @@ const Form = () => {
         setFormData({
             name: '',
             stats: true,
-            mainParent:false,
+            mainParent: mainParent,
             age:'',
-            idMainParent: '',
-            idMainParentRelational:'',
+            idMainParent: idMainParent,
             infoUsers: {
                 phone: '',
                 clothingSize: '',
@@ -143,8 +129,8 @@ const Form = () => {
         });
         setMonthState(initialMonthState);
 
-        console.log("initialMonthState", initialMonthState);
-        console.log("formdata", formData);
+
+        console.log("formData after state update:", formData);
 
     } catch (error) {
       console.error('Error sending data:', error);
@@ -226,48 +212,7 @@ const Form = () => {
             <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Status</span>  </label>
             </div>
 
-      <div className="mb-4 flex ">
-          <label htmlFor="mainParent" className="relative inline-flex items-center  cursor-pointer">
-          <input
-              type="checkbox"
-              id="mainParent"
-              name="mainParent"
-              checked={formData.mainParent}
-              onChange={handleChange}
-              className="sr-only peer "
-          />
-              <div className="w-9 h-5 bg-gray-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">   Parente Principal: </span>  </label>
-      </div></div>
 
-      <div className="mb-4">
-          <label htmlFor="idMainParent" className="block text-gray-700 font-bold">
-              Id do principal familiar:
-          </label>
-          <input
-              type="number"
-              id="idMainParent"
-              name="idMainParent"
-              disabled={idMainParentRelationalEnabled} // Desabilita se idMainParentRelationalEnabled for falso
-              value={formData.idMainParent}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-lg "
-          />
-      </div>
-
-      <div className="mb-4">
-          <label htmlFor="idMainParentRelational" className="block text-gray-700 font-bold">
-              Id do familiar:
-          </label>
-          <input
-              type="number"
-              id="idMainParentRelational"
-              name="idMainParentRelational"
-              value={formData.idMainParentRelational}
-              disabled={!idMainParentRelationalEnabled} // Desabilita se idMainParentRelationalEnabled for falso
-              onChange={handleChange}
-              className="w-full p-2 border rounded-lg "
-          />
       </div>
 
 

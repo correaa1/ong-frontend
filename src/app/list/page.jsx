@@ -5,6 +5,7 @@ import UserList from "@/app/list/userList";
 import UserDetails from "@/app/list/profile/userDetail";
 import UserListSelect from "@/app/deliveryList/userListSelect";
 import UserRegister from "@/app/register/userRegister";
+import AddFamilyMemberPage from "@/app/familyRegister/page";
 
 
 
@@ -17,7 +18,7 @@ const List = () => {
           <Route path="/list/profile/:id" element={<UserDetails/>} />
           <Route path="/register" element={<UserRegister/>} />
           <Route path="/deliveryList" element={<UserListSelect />} />
-
+          <Route path="/familyRegister/:id" element={<AddFamilyMemberPage/>} />
       </Routes>
 
 </Router>
