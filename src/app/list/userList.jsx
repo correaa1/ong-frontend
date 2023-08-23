@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import {Button} from "react-bootstrap";
+import {FaUsers} from "react-icons/fa";
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const [selectedUsers, setSelectedUsers] = useState([]); // State for selected users
     const [userAddresses, setUserAddresses] = useState({}); // Object to store user addresses
+    const [originalUsers, setOriginalUsers] = useState([]);
 
 
 
@@ -20,6 +21,23 @@ const UserList = () => {
                 : [...prevSelected, userId]
         );
     };
+
+    const handleUserFilter = async () => {
+        try {
+            const apiUrl = 'http://localhost:8080/v1/users'; // Substitua pela nova URL da API
+            const response = await axios.get(apiUrl);
+
+            setUsers(response.data);
+        } catch (error) {
+            console.error('API Error:', error.message);
+            // Lide com o erro
+        }
+    };
+
+    const handleClearFilter = () => {
+        setUsers(originalUsers);
+    };
+
 // essa function é responsavel por salvar no banco os atributos de objeto address e  nameUser --- vai para a tabela Delivery
     const handleUserListSelect = async () => {
         const selectedUserIds = selectedUsers.join(',');
@@ -44,30 +62,34 @@ const UserList = () => {
         }
     };
 
+    const fetchUsers = async () => {
+        try {
+            const apiUrl = 'http://localhost:8080/v1/users/stats';
+            const response = await axios.get(apiUrl);
+
+            setUsers(response.data);
+            setOriginalUsers(response.data);
+
+            const addressMapping = {};
+            response.data.forEach((user) => {
+                addressMapping[user.id] = user.address;
+            });
+            setUserAddresses(addressMapping);
+        } catch (error) {
+            console.error('API Error:', error.message);
+            setUsers([]);
+            setOriginalUsers([]);
+        }
+    };
 
 
 
 
     // useEffect basico responsavel por fazer um get na url e listar todos os usuários
     useEffect(() => {
-        const apiUrl = 'http://localhost:8080/v1/users/stats';
-
-        axios
-            .get(apiUrl)
-            .then((response) => {
-                setUsers(response.data);
-                // Create a mapping of user IDs to addresses
-                const addressMapping = {};
-                response.data.forEach(user => {
-                    addressMapping[user.id] = user.address;
-                });
-                setUserAddresses(addressMapping);
-            })
-            .catch((error) => {
-                console.error('API Error:', error.message);
-                setUsers([]);
-            });
+        fetchUsers();
     }, []);
+
 
     return (
 
@@ -82,8 +104,23 @@ const UserList = () => {
                 </li>
 
             </ul>
+
             <div className='flex  flex-col  border-2 border-gray-700 rounded-3xl p-4 m-10 justify-center '>
                 <h1 className=" font-serif p-5 text-gray-700 text-center text-5xl">Lista geral</h1>
+                <div className='flex'>
+                    <button
+                        className="flex items-center gap-2 bg-gray-none hover:bg-gray-400 m-2 p-3 border border-gray-600 rounded-2xl font-sans text-gray-700 text-xl"
+                        onClick={ handleUserFilter}
+                    >
+                      <FaUsers/>Todos usuários
+                    </button>
+                    <button
+                        className="bg-gray-none hover:bg-gray-400 m-2 p-3 border border-gray-600 rounded-2xl font-sans text-gray-700 text-xl"
+                        onClick={handleClearFilter}
+                    >
+                        Familiares principais
+                    </button>
+                </div>
                 <ul >
                     {users.map((user) => (
                         <li className=' flex  items-center '  key={user.id}>
@@ -101,6 +138,9 @@ const UserList = () => {
                         </li>
                     ))}
                 </ul>
+
+
+
                <button className=' bg-gray-none hover:bg-gray-400 m-2 p-3 rounded-2xl font-serif  text-gray-700 text-2xl'
                                                                           onClick={handleUserListSelect}>Enviar para entrega
                 </button>

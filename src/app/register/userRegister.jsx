@@ -18,7 +18,7 @@ const initialMonthState = {
     novembro: false,
     dezembro: false,
 };
-const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
+const Form = ({mainParent = true,  idMainParent}) => {
     const [monthState, setMonthState] = useState(initialMonthState);
     const navigate = useNavigate()
     const [validationErrors, setValidationErrors] = useState({
@@ -64,6 +64,7 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
         }));
 
         console.log("formData inside handleChange:", formData);
+
     };
 
 
@@ -86,11 +87,7 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
           });
           return; // Impede o envio se houver erros de validação
       }
-      const navigateUrl = mainParent
-          ? `/register                                                              `
-          : `/list/profile/${idMainParent}`;
 
-      navigate(navigateUrl, { replace: true });
 
     try {
         console.log('monthState before API call:', monthState);
@@ -104,8 +101,11 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
         toast.success('Formulário enviado com sucesso!', {
             position: toast.POSITION.TOP_CENTER,
         });
+        const navigateUrl = mainParent
+            ? `/register                                                              `
+            : `/list/profile/${idMainParent}`;
 
-
+        navigate(navigateUrl, { replace: true });
 
         setFormData({
             name: '',
@@ -219,7 +219,7 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
       </div>
 
 
-                 <div className="mb-4 flex justify-items-center flex-col ">
+ <div className="mb-4 flex justify-items-center flex-col ">
                     <label htmlFor="infoUsers" className="block text-gray-700 font-bold">
                       Informações do Familiar:
                     </label>
@@ -240,6 +240,8 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
                   }))
                 }
                 className="w-full p-2 border rounded-lg  "
+                disabled={!mainParent}
+
               />
                     <input
                       placeholder='Tamanho da roupa'
@@ -292,7 +294,9 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
                                                 }))
                                               }
                                               className="w-full p-2 mt-2 border rounded-lg "
-                                            />
+                                              disabled={!mainParent}
+
+                                    />
                                     <input
                                                placeholder='Quantidade de Parentes'
                                                type="number"
@@ -309,7 +313,9 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
                                                  }))
                                                }
                                                className="w-full p-2 mt-2 border rounded-lg "
-                                             />
+                                               disabled={!mainParent}
+
+                                    />
                                     <input
                                               placeholder='Digite alguma anotação se quiser'
                                               type="text"
@@ -352,6 +358,8 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
                   }))
                 }
             className="w-full p-2 border rounded-lg  "
+            disabled={!mainParent}
+
           />
         </div>
         <div className="mb-4">
@@ -373,6 +381,8 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
                               }))
                             }
             className="w-full p-2 border rounded-lg "
+            disabled={!mainParent}
+
           />
 
         </div>
@@ -394,6 +404,8 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
             },
              }))}
             className="w-full p-2 border rounded-lg "
+            disabled={!mainParent}
+
           />
  </div>
        <div className="mb-4 ">
@@ -414,6 +426,8 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
             },
              }))}
              className="w-full p-2 border rounded-lg "
+             disabled={!mainParent}
+
            />
   </div>
 
@@ -430,6 +444,8 @@ const Form = ({handleSubmitForm, mainParent = true,  idMainParent}) => {
                     checked={monthState[month]}
                     onChange={() => handleMonthChange(month)}
                     className="m-1 leading-tight  "
+                    disabled={!mainParent}
+
                 />
                 <label  htmlFor={month} className="ml-1 text-gray-600 text-xl  font-serif ">
                     {month}

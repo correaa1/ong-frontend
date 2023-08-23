@@ -17,6 +17,9 @@ const UserDetails = () => {
     const [editedUser, setEditedUser] = useState({});
     const [editingField, setEditingField] = useState(null);
     const navigate = useNavigate();
+    const [isEditingFamily, setIsEditingFamily] = useState(false);
+    const [editedFamilyMember, setEditedFamilyMember] = useState({});
+
 
     console.log("editedUser", editedUser); // Add this log
     console.log("editedUser.month", editedUser.month);
@@ -72,16 +75,20 @@ const UserDetails = () => {
 
 
 
-    const startEditing = () => {
+    const startEditing = (familyMember) => {
         setEditedUser({ ...user }); // Inicializa as edições com os dados atuais do usuário
         setIsEditing(true); // Ativa o modo de edição
-        console.log("editUser",editedUser)
+
     };
 
     const cancelEditing = () => {
         setIsEditing(false);
-        setEditedUser({}); // Limpa as informações do usuário em edição
+        setEditedUser({});
+
+        // Limpa as informações do usuário em edição
     };
+
+
     const handleEditChange = (fieldPath, value) => {
         const fieldParts = fieldPath.split('.');
         setEditedUser((prevEditedUser) => {
@@ -106,6 +113,45 @@ const UserDetails = () => {
             return prevEditedUser;
         });
     };
+
+    const startEditingFamily = (familyMember) => {
+        setEditedFamilyMember({ ...familyMember });
+        setIsEditingFamily(true);
+    };
+    const cancelEditingFamily = () => {
+        setEditedFamilyMember({});
+        setIsEditingFamily(false);
+    };
+
+    const handleEditFamilyChange = (fieldPath, value) => {
+        setEditedFamilyMember((prevEditedFamilyMember) => {
+            const updatedFamilyMember = { ...prevEditedFamilyMember };
+            const fieldParts = fieldPath.split('.');
+
+            // Update the nested property
+            let nestedObject = updatedFamilyMember;
+            for (const part of fieldParts.slice(0, -1)) {
+                nestedObject = nestedObject[part];
+            }
+            nestedObject[fieldParts[fieldParts.length - 1]] = value;
+
+            return updatedFamilyMember;
+        });
+    };
+
+    const saveFamilyMemberChanges = async (familyMemberId) => {
+        try {
+            // Send edited family member data to the API
+            await axios.put(`http://localhost:8080/v1/users/${familyMemberId}`, editedFamilyMember);
+            // Update the family members list or perform any necessary actions
+            // ...
+            setIsEditingFamily(false);
+        } catch (error) {
+            console.error('API Error:', error.message);
+            // Handle errors as needed
+        }
+    };
+
 
     const saveChanges = async () => {
         try {
@@ -174,16 +220,15 @@ const UserDetails = () => {
 
 
 
-               <div className=' p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
-                   <label className=' text-xl font-medium text-white '>
+               <div className=' p-2 m-5 rounded-2xl flex border-2 border-gray-500  justify-center bg-cyan-700'>
+                   <label className=' flex gap-2 text-xl font-medium text-white '>
                        Stats: {isEditing ? (
                        <input
-
-                           type="boolean"
+                           type="checkbox"
                            value={editedUser.stats || ''}
                            onChange={(e) => handleEditChange('stats', e.target.value)}
-                           className="bg-gray-50   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full
-                            p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500" />
+                           className=" bg-gray-50   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500  w-full
+                             dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500" />
                    ) : (
                        <span>{user.stats}</span>
                    )}
@@ -337,17 +382,17 @@ const UserDetails = () => {
 
                <div>
                    {isEditing ? (
-                       <div>
-                           <h1>Recebeu entrega em:</h1>
+                       <div >
+                           <h1 className='font-medium font-serif text-2xl text-center p-3'>Recebeu entrega em:</h1>
                            {Object.entries(editedUser.month).map(([month, value]) => (
-                               <label key={month} className="month-checkbox ">
+                               <label key={month} className="flex  gap-2 month-checkbox ">
                                    <input
 
                                        type="checkbox"
                                        checked={value}
                                        onChange={() => toggleMonthDelivery(month)}
                                    />
-                                   {month}
+                                   <p  className='text-xl font-serif'>{month}</p>
                                </label>
                            ))}
                        </div>
@@ -394,16 +439,77 @@ const UserDetails = () => {
                     <div className=''>
                         {familyMembers.map((familyMember) => (
                             <div key={familyMember.id}>
-                              <div className='flex-wrap	w-full  border border-gray-500 rounded-2xl p-5 bg-cyan-700 m-2 items-center gap-4'>
-                               <p className='  text-xl text-white font-serif p-2 '>Nome: {familyMember.name}  </p>
-                                <p className=' text-xl text-white font-serif p-2 '>Tamanho de roupa: {familyMember.infoUsers?.clothingSize} </p>
-                                  <p className='text-xl text-white font-serif p-2 '>Tamanho de tenis: {familyMember.infoUsers?.shoe}  </p>
-                                  <p className='text-xl text-white font-serif p-2'>Anotação: {familyMember.infoUsers?.note} </p>
-                              </div>
-                                {/* Display other family member details as needed */}
+                                <div className='flex flex-col border border-gray-500 rounded-2xl p-5 bg-cyan-700 m-2 items-stretch  gap-4'>
+                                    {isEditingFamily && editedFamilyMember.id === familyMember.id ? (
+                                        // Editing mode
+                                        <>
+
+                                            <label className=' flex flex-col text-center  text-xl font-medium text-white  '>
+                                                Nome:
+                                                <input
+                                                    className='text-black'
+                                                    type="text"
+                                                    value={editedFamilyMember.name || ''}
+                                                    onChange={(e) => handleEditFamilyChange('name', e.target.value)}
+                                                />
+                                            </label>
+
+                                            <label className=' flex flex-col text-center text-xl font-medium text-white '>
+                                                Tamanho de roupa:
+                                                <input
+                                                    className='text-black'
+                                                    type="text"
+                                                    value={editedFamilyMember.infoUsers.clothingSize || ''}
+                                                    onChange={(e) => handleEditFamilyChange('infoUsers.clothingSize', e.target.value)}
+                                                />
+                                            </label>
+
+                                            <label className=' flex flex-col text-center text-xl font-medium text-white '>
+                                                Tamanho de tenis:
+                                                <input
+                                                    className='text-black'
+                                                    type="text"
+                                                    value={editedFamilyMember.infoUsers.shoe || ''}
+                                                    onChange={(e) => handleEditFamilyChange('infoUsers.shoe', e.target.value)}
+                                                />
+                                            </label>
+
+                                            {/* Add more fields as needed */}
+                                           <div className='flex pt-6 justify-center items-center'>
+                                               <Button className='bg-green-500 hover:bg-green-300 text-white px-4 py-2 rounded' onClick={() => startEditing()}>
+                                                <BsFillCheckCircleFill  onClick={() => saveFamilyMemberChanges(familyMember.id)} >
+
+                                                </BsFillCheckCircleFill>
+                                            </Button>
+                                            <Button className='bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded' onClick={() => cancelEditing()}>
+                                                <MdCancel  onClick={cancelEditingFamily} ></MdCancel>
+                                            </Button>
+                                           </div>
+                                        </>
+                                    ) : (
+                                        // Display mode
+                                        <>
+                                            <p className='text-xl text-white font-serif p-2'>
+                                                Nome: {familyMember.name}
+                                            </p>
+                                            <p className='text-xl text-white font-serif p-2'>
+                                                Tamanho de roupa: {familyMember.infoUsers.clothingSize}
+                                            </p>
+                                            <p className='text-xl text-white font-serif p-2'>
+                                                Tamanho de tenis: {familyMember.infoUsers.shoe}
+                                            </p>
+
+                          <Button className=" justify-center rounded-2xl w-11/12 bg-cyan-700 hover:bg-cyan-600
+                                             text-white font-bold py-2 px-4  flex items-center"
+                                  onClick={() => startEditingFamily(familyMember)}>
+                                                <span className=' flex items-center gap-2'> Editar <FiEdit/></span>
+                                            </Button>
+
+                                        </>
+                                    )}
+                                </div>
                             </div>
                         ))}
-
                     </div>
 
                 </div>
