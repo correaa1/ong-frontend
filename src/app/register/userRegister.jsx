@@ -98,14 +98,19 @@ const Form = ({mainParent = true,  idMainParent}) => {
             ...formData, // Spread the existing formData
             month: { ...monthState }, // Spread the monthState to create a new object
         });
+
         toast.success('Formulário enviado com sucesso!', {
             position: toast.POSITION.TOP_CENTER,
         });
+
         const navigateUrl = mainParent
             ? `/register                                                              `
             : `/list/profile/${idMainParent}`;
 
+
+
         navigate(navigateUrl, { replace: true });
+
 
         setFormData({
             name: '',

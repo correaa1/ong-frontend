@@ -97,22 +97,25 @@ const UserDetails = () => {
                     ...prevEditedUser,
                     [fieldParts[0]]: value,
                 };
-            } else if (fieldParts.length === 2 && fieldParts[0] === 'infoUsers'||'address') {
+            } else if (fieldParts.length === 2 && (fieldParts[0] === 'infoUsers' || fieldParts[0] === 'address')) {
+                const updatedNestedField = {
+                    ...prevEditedUser[fieldParts[0]],
+                    [fieldParts[1]]: value,
+                };
+
                 return {
                     ...prevEditedUser,
-                    infoUsers: {
-                        ...prevEditedUser.infoUsers,
-                        [fieldParts[1]]: value,
-                    },
-                    address: {
-                        ...prevEditedUser.address,
-                        [fieldParts[1]]: value,
-                    },
+                    [fieldParts[0]]: updatedNestedField,
+                };
+            } else {
+                return {
+                    ...prevEditedUser,
+                    [fieldParts[0]]: value,
                 };
             }
-            return prevEditedUser;
         });
     };
+
 
     const startEditingFamily = (familyMember) => {
         setEditedFamilyMember({ ...familyMember });
@@ -180,6 +183,22 @@ const UserDetails = () => {
            <div className='border-2 border-gray-700 rounded-2xl m-5 p-10  '>
             <h1 className='text-gray-700 text-3xl  text-center'>Perfil de usuário  </h1>
 
+               <div className=' p-2 m-5 rounded-2xl flex border-2 border-gray-500  justify-center bg-cyan-700'>
+                   <label className=' flex gap-2 text-xl font-medium text-white '>
+                       Status: {isEditing ? (
+                       <input
+                           type="checkbox"
+                           value={editedUser.stats || undefined}
+                           onChange={(e) => handleEditChange('stats', !editedUser.stats)}
+                           className=" bg-gray-50   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500  w-full
+                             dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500" />
+                   ) : (
+                       editedUser.stats ? 'Ativo' : 'Inativo'
+                   )}
+                   </label>
+
+               </div>
+
                <div className='   p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700  '>
                    <label className='text-xl font-medium text-white '>
 
@@ -215,27 +234,6 @@ const UserDetails = () => {
                    </label>
                </div>
 
-
-
-
-
-
-               <div className=' p-2 m-5 rounded-2xl flex border-2 border-gray-500  justify-center bg-cyan-700'>
-                   <label className=' flex gap-2 text-xl font-medium text-white '>
-                       Stats: {isEditing ? (
-                       <input
-                           type="checkbox"
-                           value={editedUser.stats || ''}
-                           onChange={(e) => handleEditChange('stats', e.target.value)}
-                           className=" bg-gray-50   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500  w-full
-                             dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500" />
-                   ) : (
-                       <span>{user.stats}</span>
-                   )}
-                   </label>
-
-               </div>
-
                <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
                    <label className=' text-xl font-medium text-white '>
                        WhatsApp: {isEditing ? (
@@ -246,7 +244,7 @@ const UserDetails = () => {
                            className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
-                       <span>{user.infoUsers.phone}</span>
+                       <span>{user.infoUsers?.phone}</span>
                    )}
                    </label>
 
@@ -257,12 +255,12 @@ const UserDetails = () => {
                        Tamanho de roupa: {isEditing ? (
                        <input
                            type="text"
-                           value={editedUser.infoUsers.clothingSize || ''}
+                           value={editedUser.infoUsers?.clothingSize || ''}
                            onChange={(e) => handleEditChange('infoUsers.clothingSize', e.target.value)}
                            className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
-                       <span>{user.infoUsers.clothingSize}</span>
+                       <span>{user.infoUsers?.clothingSize}</span>
                    )}
                    </label>
 
@@ -273,12 +271,12 @@ const UserDetails = () => {
                        Tamanho de tenis: {isEditing ? (
                        <input
                            type="text"
-                           value={editedUser.infoUsers.shoe || ''}
+                           value={editedUser.infoUsers?.shoe || ''}
                            onChange={(e) => handleEditChange('infoUsers.shoe', e.target.value)}
                            className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
-                       <span>{user.infoUsers.shoe}</span>
+                       <span>{user.infoUsers?.shoe}</span>
                    )}
                    </label>
 
@@ -289,12 +287,12 @@ const UserDetails = () => {
                        total de familiares: {isEditing ? (
                        <input
                            type="number"
-                           value={editedUser.infoUsers.amountParent || ''}
+                           value={editedUser.infoUsers?.amountParent || ''}
                            onChange={(e) => handleEditChange('infoUsers.amountParent', e.target.value)}
                            className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
-                       <span>{user.infoUsers.amountParent}</span>
+                       <span>{user.infoUsers?.amountParent}</span>
                    )}
                    </label>
 
@@ -305,12 +303,12 @@ const UserDetails = () => {
                        Observações: {isEditing ? (
                        <input
                            type="text"
-                           value={editedUser.infoUsers.note || ''}
+                           value={editedUser.infoUsers?.note || ''}
                            onChange={(e) => handleEditChange('infoUsers.note', e.target.value)}
                            className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
-                       <span>{user.infoUsers.note}</span>
+                       <span>{user.infoUsers?.note}</span>
                    )}
                    </label>
 
@@ -359,6 +357,8 @@ const UserDetails = () => {
                            className="bg-gray-50  -gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:-blue-500"
                        />
                    ) : (
+
+
                        <span>{user.address?.number}</span>
                    )}
                    </label>
@@ -398,9 +398,15 @@ const UserDetails = () => {
                        </div>
                    ) : (
                        <div>
-                           <h1>Meses com Entrega:</h1>
+                           <h1 className='text-center text-2xl  text-gray-700'>Meses com Entrega:</h1>
                            {Object.entries(user.month).map(([month, value]) => (
-                               value && <span key={month}>{month}, </span>
+                               value &&
+                                <div className='p-2 m-5 rounded-2xl flex border-2 border-gray-500 items justify-center bg-cyan-700'>
+                               <span
+                                              className='text-xl font-medium text-white'
+                                              key={month}>{month}
+                               </span>
+                                </div>
                            ))}
                        </div>
                    )}
@@ -418,7 +424,7 @@ const UserDetails = () => {
                        </div>
 
                    ) : (
-                       <Button className=" justify-center rounded-2xl w-11/12 bg-cyan-700 hover:bg-cyan-600  text-white font-bold py-2 px-4  flex items-center" onClick={startEditing}>
+                       <Button className=" justify-center rounded-2xl w-11/12 bg-cyan-600 hover:bg-cyan-500  text-white font-bold py-2 px-4  flex items-center" onClick={startEditing}>
                            <span className=' flex items-center gap-2'> Editar <FiEdit/></span>
                        </Button>
                    )}

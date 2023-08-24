@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import {FaUsers} from "react-icons/fa";
+import {FiSearch} from "react-icons/fi";
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
@@ -10,7 +11,7 @@ const UserList = () => {
     const [selectedUsers, setSelectedUsers] = useState([]); // State for selected users
     const [userAddresses, setUserAddresses] = useState({}); // Object to store user addresses
     const [originalUsers, setOriginalUsers] = useState([]);
-
+    const [searchValue, setSearchValue] = useState('');
 
 
     // function abaixo é referente a parte de seleção de usuário, para salvar os dados
@@ -22,7 +23,7 @@ const UserList = () => {
         );
     };
 
-    const handleUserFilter = async () => {
+    const handleAllUsers = async () => {
         try {
             const apiUrl = 'http://localhost:8080/v1/users'; // Substitua pela nova URL da API
             const response = await axios.get(apiUrl);
@@ -33,6 +34,10 @@ const UserList = () => {
             // Lide com o erro
         }
     };
+
+    const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
     const handleClearFilter = () => {
         setUsers(originalUsers);
@@ -110,7 +115,7 @@ const UserList = () => {
                 <div className='flex'>
                     <button
                         className="flex items-center gap-2 bg-gray-none hover:bg-gray-400 m-2 p-3 border border-gray-600 rounded-2xl font-sans text-gray-700 text-xl"
-                        onClick={ handleUserFilter}
+                        onClick={ handleAllUsers}
                     >
                       <FaUsers/>Todos usuários
                     </button>
@@ -121,8 +126,23 @@ const UserList = () => {
                         Familiares principais
                     </button>
                 </div>
+
+                <label className='relative block'>
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-2">  <FiSearch/></span>
+                    <input
+                        type="text"
+                        placeholder="Buscar por nome..."
+                        value={searchValue}
+                        onChange={e => setSearchValue(e.target.value)}
+                        className=' placeholder:italic placeholder:text-slate-400 block bg-gray-200 w-full
+                     border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm
+                     focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
+
+                    />
+                </label>
+
                 <ul >
-                    {users.map((user) => (
+                    {filteredUsers.map((user) => (
                         <li className=' flex  items-center '  key={user.id}>
                             <label className=" font-serif p-3 text-black text-2xl">
                                 <input
