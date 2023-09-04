@@ -16,7 +16,7 @@ const UserListSelect = () => {
     useEffect(() => {
         const fetchAddresses = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/v1/delivery'); // Fetch delivery addresses
+                const response = await axios.get('http://54.196.6.129:8080/v1/delivery'); // Fetch delivery addresses
 
                 const uniqueAddressesArray = response.data.reduce((unique, addressObj) => {
                     const existingAddress = unique.find(

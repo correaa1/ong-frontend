@@ -25,7 +25,7 @@ const UserList = () => {
 
     const handleAllUsers = async () => {
         try {
-            const apiUrl = 'http://localhost:8080/v1/users'; // Substitua pela nova URL da API
+            const apiUrl = 'http://54.196.6.129:8080/v1/users'; // Substitua pela nova URL da API
             const response = await axios.get(apiUrl);
 
             setUsers(response.data);
@@ -58,7 +58,7 @@ const UserList = () => {
 
         try {
             console.log(selectedAddresses)
-            await axios.post('http://localhost:8080/v1/delivery', selectedAddresses);
+            await axios.post('http://54.196.6.129:8080/v1/delivery', selectedAddresses);
             navigate(`/deliveryList?users=${selectedUserIds}`);
             console.log(selectedUserIds)
         } catch (error) {
@@ -69,7 +69,7 @@ const UserList = () => {
 
     const fetchUsers = async () => {
         try {
-            const apiUrl = 'http://localhost:8080/v1/users/stats';
+            const apiUrl = 'http://54.196.6.129:8080/v1/users/stats';
             const response = await axios.get(apiUrl);
 
             setUsers(response.data);

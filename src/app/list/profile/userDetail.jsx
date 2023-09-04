@@ -1,4 +1,3 @@
-"use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useNavigate,Link, useParams} from 'react-router-dom';
@@ -29,7 +28,7 @@ const UserDetails = () => {
     const [familyMembers, setFamilyMembers] = useState([]); // Step 1
     const fetchFamilyMembers = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/users?idMainParent=${user.id}`);
+            const response = await fetch(`http://54.196.6.129:8080/v1/users?idMainParent=${user.id}`);
             const data = await response.json();
             setFamilyMembers(data);
 
@@ -45,7 +44,7 @@ const UserDetails = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/v1/users/${id}`);
+                const response = await axios.get(`http://54.196.6.129:8080/v1/users/${id}`);
                 setUser(response.data);
                 setEditedUser(response.data);
             } catch (error) {
