@@ -6,6 +6,10 @@ import React from "react";
 import UserList from "@/app/list/userList";
 
 const Register = () => {
+    const isClient = typeof window !== 'undefined';
+    if (!isClient) {
+        return null; // Retorna null no lado do servidor
+    }
   return (
       <Router>
           <Routes>

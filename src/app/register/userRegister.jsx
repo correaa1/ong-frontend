@@ -19,6 +19,11 @@ const initialMonthState = {
     dezembro: false,
 };
 const Form = ({mainParent = true,  idMainParent}) => {
+    const isClient = typeof window !== 'undefined';
+    if (!isClient) {
+        return null; // Retorna null no lado do servidor
+    }
+
     const [monthState, setMonthState] = useState(initialMonthState);
     const navigate = useNavigate()
     const [validationErrors, setValidationErrors] = useState({

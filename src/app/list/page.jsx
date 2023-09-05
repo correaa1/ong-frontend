@@ -11,6 +11,10 @@ import AddFamilyMemberPage from "@/app/familyRegister/page";
 
 
 const List = () => {
+    const isClient = typeof window !== 'undefined';
+    if (!isClient) {
+        return null; // Retorna null no lado do servidor
+    }
   return (
       <Router>
       <Routes>

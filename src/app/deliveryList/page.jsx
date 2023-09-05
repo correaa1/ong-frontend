@@ -7,6 +7,10 @@ import UserList from "@/app/list/userList";
 import UserRegister from "@/app/register/userRegister";
 
 const DeliveryList = () => {
+    const isClient = typeof window !== 'undefined';
+    if (!isClient) {
+        return null; // Retorna null no lado do servidor
+    }
      return (
          <Router>
              <Routes>

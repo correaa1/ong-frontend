@@ -1,5 +1,4 @@
 "use client"
-
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import Form from "@/app/register/userRegister";
 import UserList from "@/app/list/userList";
@@ -11,7 +10,10 @@ import React from "react";
 
 
 export default function Home() {
-
+    const isClient = typeof window !== 'undefined';
+    if (!isClient) {
+        return null; // Retorna null no lado do servidor
+    }
   return (
       <Router>
               <Routes>
