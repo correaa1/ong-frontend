@@ -37,7 +37,7 @@ const UserListSelect = () => {
         };
 
         fetchAddresses();
-    }, []); // Empty dependency array, so it runs only once on component mount
+    }, []);
 
     return (
 
