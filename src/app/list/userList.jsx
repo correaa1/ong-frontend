@@ -58,7 +58,7 @@ const UserList = () => {
 
         try {
             console.log(selectedAddresses)
-            await axios.post('http://54.196.6.129:8080/v1/delivery', selectedAddresses);
+            await axios.post('https://ong.majinbooimports.com/v1/delivery', selectedAddresses);
             navigate(`/deliveryList?users=${selectedUserIds}`);
             console.log(selectedUserIds)
         } catch (error) {

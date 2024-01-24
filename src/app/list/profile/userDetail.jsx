@@ -44,7 +44,7 @@ const UserDetails = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const response = await axios.get(`http://54.196.6.129:8080/v1/users/${id}`);
+                const response = await axios.get(`https://ong.majinbooimports.com/v1/users/${id}`);
                 setUser(response.data);
                 setEditedUser(response.data);
             } catch (error) {
@@ -144,7 +144,7 @@ const UserDetails = () => {
     const saveFamilyMemberChanges = async (familyMemberId) => {
         try {
             // Send edited family member data to the API
-            await axios.put(`http://localhost:8080/v1/users/${familyMemberId}`, editedFamilyMember);
+            await axios.put(`https://ong.majinbooimports.com/v1/users/${familyMemberId}`, editedFamilyMember);
             // Update the family members list or perform any necessary actions
             // ...
             setIsEditingFamily(false);
@@ -158,7 +158,7 @@ const UserDetails = () => {
     const saveChanges = async () => {
         try {
             // Envia as edições para a API
-            await axios.put(`http://localhost:8080/v1/users/${user.id}`, editedUser);
+            await axios.put(`https://ong.majinbooimports.com/v1/users/${user.id}`, editedUser);
             // Atualiza a lista de usuários ou faz outras ações necessárias
             // ...
             setIsEditing(false); // Desativa o modo de edição
