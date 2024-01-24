@@ -28,7 +28,6 @@ const UserListSelect = () => {
                     }
                     return unique;
                 }, []);
-
                 setUniqueAddresses(uniqueAddressesArray);
                 setAddresses(response.data);
 
