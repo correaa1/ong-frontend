@@ -165,16 +165,16 @@ const Form = ({mainParent = true,  idMainParent}) => {
 
 
     return (
-  <div className=" bg-gray-300 justify-center flex flex-col items-center">
-      <h1 className='m-4 font-sans font-medium p-2 text-gray-700 text-3xl'>Cadastrar novo usuário</h1>
-  <div className='p-2  w-1/3 '>
+  <div className="  bg-gray-300 justify-center flex flex-col items-center">
+      <h1 className='m-4  font-medium p-2 text-gray-700 text-3xl'>Cadastrar novo usuário</h1>
+  <div className='p-2  sm:w-full md:w-1/3 '>
           <ToastContainer />
-  <form onSubmit={handleSubmit} className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <form onSubmit={handleSubmit} className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
             <div className="mb-4">
 
 
             </div>
-            <div className="mb-4">
+            <div className="  mb-4">
               <label  htmlFor="name" className="block text-gray-700 font-bold">
                 Nome:
               </label>
@@ -347,7 +347,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                   </div></form>
   </div>
 
-<div className='w=full p-2  w-1/3'>
+<div className='w=full p-2  sm:w-full md:w-1/3 '>
 <form onSubmit={handleSubmit} className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4  ">
           <label htmlFor="address" className="block text-gray-700 font-bold">
