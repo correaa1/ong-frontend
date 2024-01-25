@@ -186,7 +186,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                 value={formData.name}
 
                 onChange={handleChange}
-                className="w-full p-2 border rounded-lg "
+                className="w-full text-black p-2 border rounded-lg "
 
               />  {validationErrors.name && (
                 <p className="error">{validationErrors.name}</p>
@@ -194,7 +194,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
             </div>
 
       <div className="mb-4">
-          <label  htmlFor="age" className="block text-gray-700 font-bold">
+          <label  htmlFor="age" className="block text-black text-gray-700 font-bold">
               Idade:
           </label>
           <input
@@ -205,7 +205,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
               value={formData.age}
 
               onChange={handleChange}
-              className="w-full p-2 border rounded-lg "
+              className="w-full p-2 border text-black rounded-lg "
           />
       </div>
 
@@ -222,7 +222,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                 className="sr-only peer "
               />
             <div className="w-9 h-5 bg-gray-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-            <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Status</span>  </label>
+            <span className="ml-3 text-sm font-medium text-gray-900 ">Status</span>  </label>
             </div>
 
 
@@ -249,7 +249,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                     },
                   }))
                 }
-                className="w-full p-2 border rounded-lg  "
+                className="w-full p-2 border rounded-lg text-black  "
                 disabled={!mainParent}
 
               />
@@ -268,7 +268,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                           },
                         }))
                       }
-                      className="w-full p-2 mt-2  border rounded-lg "
+                      className="w-full p-2 mt-2  border rounded-lg text-black "
                     />
 
                                     <input
@@ -286,7 +286,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                       },
                                                     }))
                                                   }
-                                                  className="w-full p-2 mt-2  border rounded-lg "
+                                                  className="w-full p-2 mt-2  text-black border rounded-lg "
                                                 />
                                     <input
                                               placeholder='Quantidade de crianças'
@@ -303,7 +303,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                   },
                                                 }))
                                               }
-                                              className="w-full p-2 mt-2 border rounded-lg "
+                                              className="w-full p-2 mt-2 border text-black rounded-lg "
                                               disabled={!mainParent}
 
                                     />
@@ -322,7 +322,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                    },
                                                  }))
                                                }
-                                               className="w-full p-2 mt-2 border rounded-lg "
+                                               className="w-full p-2 mt-2 border text-black rounded-lg "
                                                disabled={!mainParent}
 
                                     />
@@ -341,7 +341,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                   },
                                                 }))
                                               }
-                                              className="w-full p-2 mt-2 border rounded-lg "
+                                              className="w-full p-2 mt-2 border text-black rounded-lg "
                                             />
 
                   </div></form>
@@ -367,13 +367,13 @@ const Form = ({mainParent = true,  idMainParent}) => {
                     },
                   }))
                 }
-            className="w-full p-2 border rounded-lg  "
+            className="w-full p-2 border text-black rounded-lg  "
             disabled={!mainParent}
 
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="street" className="block text-gray-700 font-bold">
+          <label htmlFor="street" className="block text-gray-700  font-bold">
             Rua:
           </label>
           <input
@@ -390,7 +390,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                 },
                               }))
                             }
-            className="w-full p-2 border rounded-lg "
+            className="w-full p-2 border rounded-lg text-black "
             disabled={!mainParent}
 
           />
@@ -413,13 +413,13 @@ const Form = ({mainParent = true,  idMainParent}) => {
             number: e.target.value,
             },
              }))}
-            className="w-full p-2 border rounded-lg "
+            className="w-full p-2 border rounded-lg text-black "
             disabled={!mainParent}
 
           />
  </div>
        <div className="mb-4 ">
-                 <label htmlFor="infoUsers" className="block text-gray-700 font-bold">
+                 <label htmlFor="infoUsers" className="block text-gray-700  font-bold">
                    CEP:
                  </label>
            <input
@@ -435,7 +435,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
             zipCode: e.target.value,
             },
              }))}
-             className="w-full p-2 border rounded-lg "
+             className="w-full p-2 border rounded-lg text-black "
              disabled={!mainParent}
 
            />
