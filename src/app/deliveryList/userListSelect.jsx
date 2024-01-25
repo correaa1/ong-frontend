@@ -41,7 +41,7 @@ const UserListSelect = () => {
 
     return (
 
-        <div className="flex flex-col bg-gray-300 ">
+        <div className="flex h-screen	 flex-col bg-gray-300 ">
 
                 <ul className="nav p-2 flex justify-center gap-2">
                     <li className="nav-item p-2 font-serif font-medium text-xl">

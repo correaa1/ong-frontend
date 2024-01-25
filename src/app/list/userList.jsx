@@ -99,7 +99,7 @@ const UserList = () => {
     return (
 
 
-        <div className="flex flex-col  items-center bg-gray-300  	  ">
+        <div className="flex flex-col h-screen	  items-center bg-gray-300  	  ">
             <ul className="nav p-2 flex justify-center gap-2">
                 <li className="nav-item p-2 font-serif font-medium text-xl">
                     <Link className='bg-blue-none hover:bg-gray-400 p-2 rounded-2xl' to="/deliveryList">Lista de entregas</Link>
