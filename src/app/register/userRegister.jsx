@@ -186,7 +186,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                 value={formData.name}
 
                 onChange={handleChange}
-                className="w-full text-black p-2 border rounded-lg "
+                className="w-full  p-2 border rounded-lg "
 
               />  {validationErrors.name && (
                 <p className="error">{validationErrors.name}</p>
@@ -194,7 +194,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
             </div>
 
       <div className="mb-4">
-          <label  htmlFor="age" className="block text-black text-gray-700 font-bold">
+          <label  htmlFor="age" className="block  text-gray-700 font-bold">
               Idade:
           </label>
           <input
@@ -205,7 +205,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
               value={formData.age}
 
               onChange={handleChange}
-              className="w-full p-2 border text-black rounded-lg "
+              className="w-full p-2 border  rounded-lg "
           />
       </div>
 
@@ -249,7 +249,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                     },
                   }))
                 }
-                className="w-full p-2 border rounded-lg text-black  "
+                className="w-full p-2 border rounded-lg   "
                 disabled={!mainParent}
 
               />
@@ -268,7 +268,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                           },
                         }))
                       }
-                      className="w-full p-2 mt-2  border rounded-lg text-black "
+                      className="w-full p-2 mt-2  border rounded-lg  "
                     />
 
                                     <input
@@ -286,7 +286,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                       },
                                                     }))
                                                   }
-                                                  className="w-full p-2 mt-2  text-black border rounded-lg "
+                                                  className="w-full p-2 mt-2   border rounded-lg "
                                                 />
                                     <input
                                               placeholder='Quantidade de crianças'
@@ -303,7 +303,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                   },
                                                 }))
                                               }
-                                              className="w-full p-2 mt-2 border text-black rounded-lg "
+                                              className="w-full p-2 mt-2 border  rounded-lg "
                                               disabled={!mainParent}
 
                                     />
@@ -322,7 +322,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                    },
                                                  }))
                                                }
-                                               className="w-full p-2 mt-2 border text-black rounded-lg "
+                                               className="w-full p-2 mt-2 border  rounded-lg "
                                                disabled={!mainParent}
 
                                     />
@@ -341,7 +341,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                                   },
                                                 }))
                                               }
-                                              className="w-full p-2 mt-2 border text-black rounded-lg "
+                                              className="w-full p-2 mt-2 border  rounded-lg "
                                             />
 
                   </div></form>
@@ -367,7 +367,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                     },
                   }))
                 }
-            className="w-full p-2 border text-black rounded-lg  "
+            className="w-full p-2 border  rounded-lg  "
             disabled={!mainParent}
 
           />
@@ -390,7 +390,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
                                 },
                               }))
                             }
-            className="w-full p-2 border rounded-lg text-black "
+            className="w-full p-2 border rounded-lg  "
             disabled={!mainParent}
 
           />
@@ -413,7 +413,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
             number: e.target.value,
             },
              }))}
-            className="w-full p-2 border rounded-lg text-black "
+            className="w-full p-2 border rounded-lg  "
             disabled={!mainParent}
 
           />
@@ -435,7 +435,7 @@ const Form = ({mainParent = true,  idMainParent}) => {
             zipCode: e.target.value,
             },
              }))}
-             className="w-full p-2 border rounded-lg text-black "
+             className="w-full p-2 border rounded-lg  "
              disabled={!mainParent}
 
            />

@@ -25,7 +25,7 @@ const UserList = () => {
 
     const handleAllUsers = async () => {
         try {
-            const apiUrl = 'http://54.196.6.129:8080/v1/users'; // Substitua pela nova URL da API
+            const apiUrl = 'https://ong.majinbooimports.com/v1/users'; // Substitua pela nova URL da API
             const response = await axios.get(apiUrl);
 
             setUsers(response.data);
@@ -69,7 +69,7 @@ const UserList = () => {
 
     const fetchUsers = async () => {
         try {
-            const apiUrl = 'http://54.196.6.129:8080/v1/users/stats';
+            const apiUrl = 'https://ong.majinbooimports.com/v1/users/stats';
             const response = await axios.get(apiUrl);
 
             setUsers(response.data);
@@ -90,7 +90,6 @@ const UserList = () => {
 
 
 
-    // useEffect basico responsavel por fazer um get na url e listar todos os usuários
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -144,7 +143,7 @@ const UserList = () => {
                 <ul >
                     {filteredUsers.map((user) => (
                         <li className=' flex  items-center '  key={user.id}>
-                            <label className=" font-serif p-3 text-black text-2xl">
+                            <label className=" font-serif p-3  text-2xl">
                                 <input
                                     className= "m-2 h-4 w-4 text-indigo-600 rounded-md border-gray-300 focus:ring-indigo-500 cursor-pointer"
                                     type="checkbox"

@@ -28,7 +28,7 @@ const UserDetails = () => {
     const [familyMembers, setFamilyMembers] = useState([]); // Step 1
     const fetchFamilyMembers = async () => {
         try {
-            const response = await fetch(`http://54.196.6.129:8080/v1/users?idMainParent=${user.id}`);
+            const response = await fetch(`https://ong.majinbooimports.com/v1/users?idMainParent=${user.id}`);
             const data = await response.json();
             setFamilyMembers(data);
 
@@ -452,7 +452,7 @@ const UserDetails = () => {
                                             <label className=' flex flex-col text-center  text-xl font-medium text-white  '>
                                                 Nome:
                                                 <input
-                                                    className='text-black'
+                                                    className=''
                                                     type="text"
                                                     value={editedFamilyMember.name || ''}
                                                     onChange={(e) => handleEditFamilyChange('name', e.target.value)}
@@ -462,7 +462,7 @@ const UserDetails = () => {
                                             <label className=' flex flex-col text-center text-xl font-medium text-white '>
                                                 Tamanho de roupa:
                                                 <input
-                                                    className='text-black'
+                                                    className=''
                                                     type="text"
                                                     value={editedFamilyMember.infoUsers.clothingSize || ''}
                                                     onChange={(e) => handleEditFamilyChange('infoUsers.clothingSize', e.target.value)}
@@ -472,7 +472,7 @@ const UserDetails = () => {
                                             <label className=' flex flex-col text-center text-xl font-medium text-white '>
                                                 Tamanho de tenis:
                                                 <input
-                                                    className='text-black'
+                                                    className=''
                                                     type="text"
                                                     value={editedFamilyMember.infoUsers.shoe || ''}
                                                     onChange={(e) => handleEditFamilyChange('infoUsers.shoe', e.target.value)}
