@@ -10,10 +10,13 @@ import {
     Text,
   } from "@chakra-ui/react";
   import { useState } from "react";
-  import { registerUser } from "../app/services/users";
+  import { useRouter } from "next/router";
+  import { registerFamilyMember } from "../app/services/family";
   
   const Register = () => {
     const bgColor = 'blue.100';
+    const router = useRouter();
+    const { userId } = router.query; 
   
     const [formData, setFormData] = useState({
       name: "",
@@ -25,34 +28,37 @@ import {
       whatsapp: "",
       email: "",
       notes: "",
+      mainUserId: userId, 
     });
   
     const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    };
-  
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      console.log("Submitting form with data:", formData);
-      try {
-        const response = await registerUser(formData);
-        console.log("Response:", response);
-      } catch (error) {
-        console.error("Erro ao registrar usuário:", error);
-      }
-    };
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      };
+      const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log('Submitting form with data:', formData);
+        console.log('User ID:', userId);
+      
+        try {
+          const response = await registerFamilyMember(formData, userId); 
+          console.log('Response:', response);
+          router.push('/'); // Exemplo de redirecionamento para a página inicial após o cadastro
+        } catch (error) {
+          console.error('Erro ao registrar familiar:', error.message);
+        }
+      };
+      
   
     return (
       <Flex >
         <Flex  bg='blue.50' minH='57rem'  direction="column" w="full">
-        <Text align='center' fontSize='2xl' fontWeight='bold' mx='2rem' mt='2rem'>Cadastro</Text>
-
-          <Container maxWidth="full" px="2rem" py='1rem'>
-            <Flex
+        <Text  align='center' fontSize='2xl' fontWeight='bold' mx='2rem' mt='2rem'>Cadastro</Text>
+        <Container maxWidth="full" px="2rem" py='1rem'>
+        <Flex
               direction="row"
               bg={bgColor}
               p="1.5rem"
@@ -67,11 +73,9 @@ import {
                       pb="1rem"
                       fontWeight="bold"
                       fontSize="xl"
-                       
                     >
-                      Cadastrar um usuário
+                      Cadastrar familiar
                     </FormLabel>
-                 
                     <Flex direction="column" gap={4}>
                       <FormControl>
                         <FormLabel>Nome</FormLabel>
@@ -132,7 +136,7 @@ import {
                   </FormControl>
                 </form>
               </Flex>
-              <Flex direction="column" maxW="50rem" w="full" p="1rem"  rounded="lg">
+              <Flex direction="column" maxW="50rem" w="full" p="1rem" rounded="lg">
                 <FormControl>
                   <Flex direction="column" gap={4}>
                     <FormLabel fontWeight="bold" fontSize="xl">Contato</FormLabel>

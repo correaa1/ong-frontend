@@ -6,13 +6,14 @@ const LinkItems = [
   { name: 'Home', url: '/' },
   { name: 'Cadastro', url: '/cadastro' },
   { name: 'Lista de usuários', url: '/usuarios' },
+  { name: 'Lista de entregas', url: '/entregas' },
 ];
 
 export default function SimpleSidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh" >
       <SidebarContent onClose={onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         isOpen={isOpen}
@@ -27,7 +28,7 @@ export default function SimpleSidebar() {
         </DrawerContent>
       </Drawer>
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} >
       </Box>
     </Box>
   );
@@ -36,7 +37,7 @@ export default function SimpleSidebar() {
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
-      bg={useColorModeValue('white', 'gray.900')}
+      bg='blue.50'
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
@@ -46,7 +47,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+          ONG
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
