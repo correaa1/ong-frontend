@@ -1,119 +1,110 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TableChakra from '@/app/components/TableChakra';
-import {
-  Box,
-  Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useDisclosure,
-  Grid,
-  GridItem,
-  FormControl,
-  FormLabel,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
+import DeliveryTable from '@/app/components/TableDelivery';
+import { Select, Button, Box } from '@chakra-ui/react';
 
-const Delivery = () => {
-  const [deliveryList, setDeliveryList] = useState([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedDelivery, setSelectedDelivery] = useState(null);
+const DeliveryPage = () => {
+  const [deliveries, setDeliveries] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [columns] = useState([
+    { key: 'name', label: 'Nome do Usuário' },
+    { key: 'age', label: 'Idade' },
+    { key: 'phone', label: 'Telefone' },
+    { key: 'clothingSize', label: 'Tamanho de Roupas' },
+    { key: 'shoe', label: 'Número do Calçado' },
+    { key: 'note', label: 'Observação' }
+  ]);
 
   useEffect(() => {
-    const fetchDeliveryList = async () => {
+    // Função para buscar todos os dados das entregas
+    const fetchDeliveries = async () => {
       try {
         const response = await axios.get('http://localhost:8080/v1/delivery');
-        console.log('Response from API:', response.data);
-
-        const transformedData = response.data.map(delivery => {
-          let userName = 'N/A';
-          let userId = 'N/A';
-          if (delivery.users && delivery.users.length > 0) {
-            userName = delivery.users[0].name || 'N/A';
-            userId = delivery.users[0].id || 'N/A'; 
-          }
-
-          return {
-            ...delivery,
-            userName,
-            userId,
-          };
-        });
-
-        console.log('Transformed Data:', transformedData);
-        setDeliveryList(transformedData);
+        setDeliveries(response.data);
       } catch (error) {
-        console.error('Error fetching delivery list:', error);
+        console.error('Erro ao buscar entregas:', error);
       }
     };
 
-    fetchDeliveryList();
+    fetchDeliveries();
   }, []);
 
-  const deliveryColumns = [
-    { label: 'Nome do Usuário', key: 'userName' },
-    { label: 'Mês', key: 'month' },
-  ];
+  useEffect(() => {
+    // Função para buscar usuários do mês selecionado
+    const fetchUsersForSelectedMonth = () => {
+      const selectedDelivery = deliveries.find(delivery => delivery.month === selectedMonth);
+      if (selectedDelivery) {
+        setFilteredUsers(selectedDelivery.users);
+      } else {
+        setFilteredUsers([]);
+      }
+    };
 
-  const handleRowClick = (delivery) => {
-    console.log('Selected Delivery:', delivery);
-    setSelectedDelivery(delivery);
-    onOpen();
+    if (selectedMonth) {
+      fetchUsersForSelectedMonth();
+    }
+  }, [selectedMonth, deliveries]); // Dependências
+
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
+    console.log('Mês selecionado:', e.target.value);
+  };
+
+  const handleRowClick = (id) => {
+    setSelectedUserId(id);
+    console.log('Usuário clicado:', id);
+  };
+
+  const handleRemove = async () => {
+    if (!selectedMonth || !selectedUserId) return;
+
+    try {
+      await axios.delete('http://localhost:8080/v1/delivery', {
+        data: { // Adiciona a chave 'data' para o payload do DELETE
+          month: selectedMonth,
+          userIds: [selectedUserId]
+        }
+      });
+      console.log('Usuário removido:', selectedUserId);
+      // Atualiza os usuários filtrados após a remoção
+      const updatedDeliveries = deliveries.map(delivery => 
+        delivery.month === selectedMonth
+          ? { ...delivery, users: delivery.users.filter(user => user.id !== selectedUserId) }
+          : delivery
+      );
+      setDeliveries(updatedDeliveries);
+      handleMonthChange({ target: { value: selectedMonth } }); // Recarrega os usuários do mês
+    } catch (error) {
+      console.error('Erro ao remover usuário:', error);
+    }
   };
 
   return (
-    <Box minH='57rem' bg='blue.50'>
-      <Text mx='2rem' mt='2rem' fontWeight='bold' fontSize='2xl'>Lista de Entregas</Text>
-      <Box p="1rem">
-        <TableChakra columns={deliveryColumns} data={deliveryList} onRowClick={handleRowClick} />
-      </Box>
+    <Box p={4}>
+      <h1>Gerenciar Entregas</h1>
+      <Select placeholder="Selecione o mês" onChange={handleMonthChange} value={selectedMonth}>
+        {deliveries.map(delivery => (
+          <option key={delivery.id} value={delivery.month}>
+            {delivery.month}
+          </option>
+        ))}
+      </Select>
+      <Button mt={4} ml={2} colorScheme="red" onClick={handleRemove} disabled={!selectedUserId}>
+        Remover
+      </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader textAlign="center" mb="2">
-            Detalhes da Entrega
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {selectedDelivery && (
-              <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-                <GridItem colSpan={2}>
-                  <VStack align="flex-start" spacing={4}>
-                    <FormControl>
-                      <FormLabel>Nome do Usuário</FormLabel>
-                      <Input value={selectedDelivery.userName} isReadOnly />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>ID do Usuário</FormLabel>
-                      <Input value={selectedDelivery.userId} isReadOnly />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Mês</FormLabel>
-                      <Input value={selectedDelivery.month} isReadOnly />
-                    </FormControl>
-                  </VStack>
-                </GridItem>
-              </Grid>
-            )}
-          </ModalBody>
-
-          <ModalFooter justifyContent='center'>
-            <Button colorScheme="red" mr={3} onClick={onClose}>
-              Fechar
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <DeliveryTable
+        data={filteredUsers}
+        columns={columns}
+        onRowClick={handleRowClick}
+        selectedUserId={selectedUserId}
+        showMonthSelector={false}
+        showDeleteButton={true}
+      />
     </Box>
   );
 };
 
-export default Delivery;
+export default DeliveryPage;

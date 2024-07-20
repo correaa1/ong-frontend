@@ -18,49 +18,7 @@ import {
 } from "@chakra-ui/react";
 import axios from 'axios';
 
-const StatusCell = ({ status }) => {
-  let bgColor = '';
-  let textColor = '';
-
-  switch (status) {
-    case "Ativo":
-    case "DONE":
-    case "Aprovado":
-      bgColor = 'green.400';
-      textColor = 'white';
-      break;
-    case "REJECTED":
-    case "Reprovado":
-      bgColor = 'red.400';
-      textColor = 'white';
-      break;
-    default:
-      bgColor = '#1a202c';
-      textColor = 'gray.400';
-      break;
-  }
-
-  return (
-    <Flex
-      w="6rem"
-      h="2rem"
-      align="center"
-      justify="center"
-      borderRadius="16px"
-      bg={bgColor}
-    >
-      <Text
-        color={textColor}
-        fontWeight="bold"
-        fontSize="md"
-      >
-        {status}
-      </Text>
-    </Flex>
-  );
-};
-
-const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, showSaveButton = true, onDelete }) => {
+const TableDelivery = ({ data, columns, onRowClick, showMonthSelector = true, showDeleteButton = true, onDelete }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const color = useColorModeValue('black', 'white');
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -74,8 +32,11 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
 
   const requestSort = (key) => {
     let direction = 'ascending';
-    if (sortConfig.key === key) {
-      direction = sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    } else if (sortConfig.key === key && sortConfig.direction === 'descending') {
+      direction = null;
+      key = null;
     }
     setSortConfig({ key, direction });
   };
@@ -118,15 +79,11 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
 
   useEffect(() => {
     const allIds = sortedData.map(item => item.id);
-    setSelectAll(allIds.length > 0 && allIds.every(id => selectedRows.has(id)));
+    const allSelected = allIds.length > 0 && allIds.every(id => selectedRows.has(id));
+    setSelectAll(allSelected);
   }, [selectedRows, sortedData]);
 
   const handleSave = () => {
-    if (!month) {
-      alert("Por favor, selecione um mês.");
-      return;
-    }
-
     const dataToSend = {
       month,
       userIds: Array.from(selectedRows)
@@ -144,14 +101,9 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
   };
 
   const handleRowClick = (id) => {
-    onRowClick(id); 
-  };
-
-  const renderSortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === 'ascending' ? '↑' : '↓';
+    if (onRowClick) {
+      onRowClick(id);
     }
-    return null;
   };
 
   return (
@@ -179,7 +131,7 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
               <option value="novembro">Novembro</option>
               <option value="dezembro">Dezembro</option>
             </Select>
-            {showSaveButton && <Button onClick={handleSave}>Salvar Entregas</Button>}
+            {showDeleteButton && <Button onClick={handleSave}>Salvar entregas</Button>}
           </>
         )}
         {onDelete && <Button onClick={onDelete}>Excluir Dados</Button>}
@@ -208,8 +160,8 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
             </Tr>
           </Thead>
           <Tbody>
-            {sortedData.map((item) => (
-              <Tr key={item.id} cursor="pointer" onClick={() => handleRowClick(item.id)}>
+            {sortedData.map((item, index) => (
+              <Tr key={index} onClick={() => handleRowClick(item.id)}>
                 <Td>
                   <Checkbox
                     isChecked={selectedRows.has(item.id)}
@@ -217,25 +169,10 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
                   />
                 </Td>
                 {columns.map((column, columnIndex) => (
-                  <Td key={columnIndex} maxWidth="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                    <Flex align="center">
-                      {column.key === 'status' ? (
-                        <StatusCell status={item[column.key]} />
-                      ) : (
-                        <Text
-                          fontSize="md"
-                          w={{ base: '100px', sm: '100px', md: '50px' }}
-                          cursor="pointer"
-                          onClick={(event) => {
-                            if (event.target.tagName !== 'INPUT') {
-                              handleRowClick(item.id);
-                            }
-                          }}
-                        >
-                          {item[column.key]}
-                        </Text>
-                      )}
-                    </Flex>
+                  <Td key={columnIndex}>
+                    <Text fontSize="md">
+                      {item[column.key]}
+                    </Text>
                   </Td>
                 ))}
               </Tr>
@@ -247,4 +184,4 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
   );
 };
 
-export default TableChakra;
+export default TableDelivery;

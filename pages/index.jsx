@@ -117,51 +117,8 @@ const Index = () => {
   return (
     <Box minH='57rem' bg='blue.50'>
       <Text mx='2rem' mt='2rem' fontWeight='bold' fontSize='2xl'>Lista de usuários</Text>
-      <Flex justifyContent='flex-end' mx='2rem'>
-        <Button onClick={onOpenAddDelivery} variant='outline'>
-          Adicionar entrega
-        </Button>
-      </Flex>
-      <Modal isOpen={isOpenAddDelivery} onClose={onCloseAddDelivery}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Adicionar Entrega</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <VStack spacing={4}>
-              <FormControl>
-                <FormLabel>Selecionar Mês</FormLabel>
-                <Menu>
-                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                    {selectedMonth ? selectedMonth : 'Selecionar mês'}
-                  </MenuButton>
-                  <MenuList>
-                    {Array.from({ length: 12 }, (_, index) => {
-                      const monthName = new Date(0, index).toLocaleString('default', { month: 'long' });
-                      return (
-                        <MenuItem key={index} onClick={() => handleMonthSelect(monthName)}>
-                          {monthName}
-                        </MenuItem>
-                      );
-                    })}
-                  </MenuList>
-                </Menu>
-              </FormControl>
-            </VStack>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onCloseAddDelivery}>
-              Cancelar
-            </Button>
-            <Button colorScheme='green' onClick={handleSave}>
-              Salvar
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
       <Box p="1rem">
-        <TableChakra columns={userColumns} data={users} onRowClick={handleRowClick}  onSelectedRowsChange={handleSelectedRowsChange}   />
+        <TableChakra columns={userColumns} data={users} onRowClick={handleRowClick}   onSelectedRowsChange={handleSelectedRowsChange}   />
       </Box>
 
       <Modal isOpen={isOpenUserProfile} onClose={onCloseUserProfile}>
