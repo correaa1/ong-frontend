@@ -30,10 +30,24 @@ const Delivery = () => {
     const fetchDeliveryList = async () => {
       try {
         const response = await axios.get('http://localhost:8080/v1/delivery');
-        const transformedData = response.data.map(delivery => ({
-          ...delivery,
-          userName: delivery.users.length > 0 ? delivery.users[0].name : 'N/A',
-        }));
+        console.log('Response from API:', response.data);
+
+        const transformedData = response.data.map(delivery => {
+          let userName = 'N/A';
+          let userId = 'N/A';
+          if (delivery.users && delivery.users.length > 0) {
+            userName = delivery.users[0].name || 'N/A';
+            userId = delivery.users[0].id || 'N/A'; 
+          }
+
+          return {
+            ...delivery,
+            userName,
+            userId,
+          };
+        });
+
+        console.log('Transformed Data:', transformedData);
         setDeliveryList(transformedData);
       } catch (error) {
         console.error('Error fetching delivery list:', error);
@@ -49,6 +63,7 @@ const Delivery = () => {
   ];
 
   const handleRowClick = (delivery) => {
+    console.log('Selected Delivery:', delivery);
     setSelectedDelivery(delivery);
     onOpen();
   };
@@ -75,6 +90,10 @@ const Delivery = () => {
                     <FormControl>
                       <FormLabel>Nome do Usuário</FormLabel>
                       <Input value={selectedDelivery.userName} isReadOnly />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>ID do Usuário</FormLabel>
+                      <Input value={selectedDelivery.userId} isReadOnly />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Mês</FormLabel>

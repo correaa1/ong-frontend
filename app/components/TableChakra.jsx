@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   TableContainer,
   Table,
@@ -11,9 +11,13 @@ import {
   Flex,
   useColorModeValue,
   Container,
-  Box
+  Box,
+  Checkbox,
+  Button,
+  Select
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import axios from 'axios';
 
 const StatusCell = ({ status }) => {
   let bgColor = '';
@@ -39,12 +43,12 @@ const StatusCell = ({ status }) => {
 
   return (
     <Flex
-     
       w="6rem"
       h="2rem"
       align="center"
       justify="center"
       borderRadius="16px"
+      bg={bgColor}
     >
       <Text
         color={textColor}
@@ -60,6 +64,13 @@ const StatusCell = ({ status }) => {
 const TableChakra = ({ data, columns, onRowClick }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const color = useColorModeValue('black', 'white');
+  const [selectedRows, setSelectedRows] = useState(new Set());
+  const [selectAll, setSelectAll] = useState(false);
+  const [month, setMonth] = useState("março"); // Default month
+
+  useEffect(() => {
+    console.log("IDs dos usuários selecionados:", Array.from(selectedRows));
+  }, [selectedRows]);
 
   const requestSort = (key) => {
     let direction = 'ascending';
@@ -86,46 +97,143 @@ const TableChakra = ({ data, columns, onRowClick }) => {
     });
   }, [data, sortConfig]);
 
-  const renderSortIcon = (columnKey) => {
-    if (sortConfig.key !== columnKey) return null;
-    return sortConfig.direction === 'ascending' ? <ChevronUpIcon /> :
-      sortConfig.direction === 'descending' ? <ChevronDownIcon /> : null;
+  const handleCheckboxChange = (id) => {
+    setSelectedRows(prevSelectedRows => {
+      const newSelectedRows = new Set(prevSelectedRows);
+      if (newSelectedRows.has(id)) {
+        newSelectedRows.delete(id);
+      } else {
+        newSelectedRows.add(id);
+      }
+      return newSelectedRows;
+    });
+  };
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows(new Set());
+    } else {
+      const allIds = sortedData.map(item => item.id);
+      setSelectedRows(new Set(allIds));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  useEffect(() => {
+    const allIds = sortedData.map(item => item.id);
+    const allSelected = allIds.length > 0 && allIds.every(id => selectedRows.has(id));
+    setSelectAll(allSelected);
+  }, [selectedRows, sortedData]);
+
+  const handleSave = () => {
+    const dataToSend = {
+      month,
+      userIds: Array.from(selectedRows) // Convert Set to Array
+    };
+
+    console.log("Data to be sent:", dataToSend);
+
+    axios.post('http://localhost:8080/v1/delivery', dataToSend)
+      .then(response => {
+        console.log("Save successful:", response);
+        // Handle success (e.g., show a message or update the state)
+      })
+      .catch(error => {
+        console.error("Error saving delivery:", error);
+        // Handle error (e.g., show an error message)
+      });
+  };
+
+  const handleRowClick = (id) => {
+    onRowClick(id); // Call the passed onRowClick function with the row ID
   };
 
   return (
-    <Container  minW='100%'>
-    <TableContainer  rounded='lg'>
-      <Table variant="striped" bg='blue.100' w='full'>
-        <Thead>
-          <Tr position='sticky' top={0} h='4.5rem' zIndex={1} bg='blue.200' my=".8rem">
-            {columns.map((column, index) => (
-              <Th fontSize="sm" color={color} key={index} onClick={() => requestSort(column.key)} cursor="pointer">
-                <Flex alignItems='center'>
-                  {column.label}
-                  <Box ml='0.5rem'>{renderSortIcon(column.key)}</Box>
-                </Flex>
+    <Container minW='100%'>
+      <Flex mb="1rem" alignItems="center">
+        <Select
+          value={month}
+          onChange={(e) => setMonth(e.target.value)}
+          placeholder="Selecione o mês"
+          maxW="200px"
+          mr="1rem"
+        >
+          <option value="janeiro">Janeiro</option>
+          <option value="fevereiro">Fevereiro</option>
+          <option value="março">Março</option>
+          <option value="abril">Abril</option>
+          <option value="maio">Maio</option>
+          <option value="junho">Junho</option>
+          <option value="julho">Julho</option>
+          <option value="agosto">Agosto</option>
+          <option value="setembro">Setembro</option>
+          <option value="outubro">Outubro</option>
+          <option value="novembro">Novembro</option>
+          <option value="dezembro">Dezembro</option>
+        </Select>
+        <Button onClick={handleSave}>Salvar Dados</Button>
+      </Flex>
+      <TableContainer rounded='lg'>
+        <Table variant="striped" bg='blue.100' w='full'>
+          <Thead>
+            <Tr position='sticky' top={0} h='4.5rem' zIndex={1} bg='blue.200' my=".8rem">
+              <Th>
+                <Checkbox isChecked={selectAll} onChange={handleSelectAll} />
               </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {sortedData.map((item, index) => (
-            <Tr key={index} onClick={() => onRowClick(item.id)} cursor="pointer">
-              {columns.map((column, columnIndex) => (
-                <Td key={columnIndex} maxWidth="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                  <Flex align="center">
-                    {column.key === 'status' ? <StatusCell status={item[column.key]} /> : (
-                      <Text fontSize="md" w={{ base: '100px', sm: '100px', md: '50px' }}>{item[column.key]}</Text>
-                    )}
+              {columns.map((column, index) => (
+                <Th
+                  key={index}
+                  fontSize="sm"
+                  color={color}
+                  cursor={column.onClick ? "pointer" : "default"}
+                  onClick={column.onClick ? (() => requestSort(column.key)) : undefined}
+                >
+                  <Flex alignItems='center'>
+                    {column.label}
+                    {column.onClick && <Box ml='0.5rem'>{renderSortIcon(column.key)}</Box>}
                   </Flex>
-                </Td>
+                </Th>
               ))}
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
-  </Container>
+          </Thead>
+          <Tbody>
+            {sortedData.map((item, index) => (
+              <Tr key={index} cursor="pointer">
+                <Td>
+                  <Checkbox
+                    isChecked={selectedRows.has(item.id)}
+                    onChange={() => handleCheckboxChange(item.id)}
+                  />
+                </Td>
+                {columns.map((column, columnIndex) => (
+                  <Td key={columnIndex} maxWidth="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+                    <Flex align="center">
+                      {column.key === 'status' ? (
+                        <StatusCell status={item[column.key]} />
+                      ) : (
+                        <Text
+                          fontSize="md"
+                          w={{ base: '100px', sm: '100px', md: '50px' }}
+                          cursor="pointer"
+                          onClick={(event) => {
+                            // Prevent opening the modal if the click was on the checkbox
+                            if (event.target.tagName !== 'INPUT') {
+                              handleRowClick(item.id);
+                            }
+                          }}
+                        >
+                          {item[column.key]}
+                        </Text>
+                      )}
+                    </Flex>
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 

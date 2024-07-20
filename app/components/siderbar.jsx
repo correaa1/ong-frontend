@@ -3,9 +3,8 @@ import { Box, Flex, Text, CloseButton, IconButton, Icon, Drawer, DrawerContent, 
 import { FiMenu } from 'react-icons/fi';
 
 const LinkItems = [
-  { name: 'Home', url: '/' },
   { name: 'Cadastro', url: '/cadastro' },
-  { name: 'Lista de usuários', url: '/usuarios' },
+  { name: 'Lista de usuários', url: '/' },
   { name: 'Lista de entregas', url: '/entregas' },
 ];
 
