@@ -16,10 +16,14 @@ const registerUser = async (userData) => {
         console.log("Usuário registrado:", data);
         return data;
     } catch (error) {
-        if (error.response && error.response.status === 401) {
-            console.error("Erro de autenticação: Nome ou whatsapp inválidos.");
-        } else if (error.response) {
-            console.error("Erro de rede:", error.message);
+        if (error.response) {
+            if (error.response.status === 400) {
+                console.error("Erro de validação:", error.response.data.message);
+            } else if (error.response.status === 401) {
+                console.error("Erro de autenticação: Nome ou whatsapp inválidos.");
+            } else {
+                console.error("Erro de rede:", error.message);
+            }
         } else {
             console.error("Erro desconhecido:", error.message);
         }

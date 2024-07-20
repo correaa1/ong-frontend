@@ -17,6 +17,8 @@ import {
   Select
 } from "@chakra-ui/react";
 import axios from 'axios';
+import { confirmAlert } from 'react-confirm-alert'; // Importa a biblioteca
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Importa o estilo padrão
 
 const StatusCell = ({ status }) => {
   let bgColor = '';
@@ -60,7 +62,7 @@ const StatusCell = ({ status }) => {
   );
 };
 
-const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, showSaveButton = true, onDelete }) => {
+const TableChakra = ({ data, columns = [], onRowClick, showMonthSelector = true, showSaveButton = true, onDelete }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const color = useColorModeValue('black', 'white');
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -124,6 +126,7 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
   const handleSave = () => {
     if (!month) {
       alert("Por favor, selecione um mês.");
+
       return;
     }
 
@@ -132,15 +135,33 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
       userIds: Array.from(selectedRows)
     };
 
-    console.log("Data to be sent:", dataToSend);
+    confirmAlert({
+      title: 'Confirma entrega!',
+      message: `Deseja salvar a entrega para o mês de ${month}?`,
+      buttons: [
+        {
+          label: 'Salvar',
+          onClick: () => {
+            console.log("Data to be sent:", dataToSend);
 
-    axios.post('http://localhost:8080/v1/delivery', dataToSend)
-      .then(response => {
-        console.log("Save successful:", response);
-      })
-      .catch(error => {
-        console.error("Error saving delivery:", error);
-      });
+            axios.post('http://localhost:8080/v1/delivery', dataToSend)
+              .then(response => {
+                console.log("Save successful:", response);
+                setSelectedRows(new Set());
+                setSelectAll(false);
+                setMonth(''); 
+              })
+              .catch(error => {
+                console.error("Error saving delivery:", error);
+              });
+          }
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => console.log('Cancelado')
+        }
+      ]
+    });
   };
 
   const handleRowClick = (id) => {
@@ -179,19 +200,20 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
               <option value="novembro">Novembro</option>
               <option value="dezembro">Dezembro</option>
             </Select>
-            {showSaveButton && <Button onClick={handleSave}>Salvar Entregas</Button>}
+          
+            {showSaveButton && <Button colorScheme='green' onClick={handleSave}>Salvar Entregas</Button>}
           </>
         )}
         {onDelete && <Button onClick={onDelete}>Excluir Dados</Button>}
       </Flex>
       <TableContainer rounded='lg'>
-        <Table variant="striped" bg='blue.100' w='full'>
+        <Table variant="striped" bg='white' w='full'>
           <Thead>
-            <Tr position='sticky' top={0} h='4.5rem' zIndex={1} bg='blue.200' my=".8rem">
+            <Tr position='sticky' top={0} h='4.5rem' zIndex={1} bg='white' my=".8rem">
               <Th>
                 <Checkbox isChecked={selectAll} onChange={handleSelectAll} />
               </Th>
-              {columns.map((column, index) => (
+              {columns && columns.map((column, index) => (
                 <Th
                   key={index}
                   fontSize="sm"
@@ -209,14 +231,14 @@ const TableChakra = ({ data, columns, onRowClick, showMonthSelector = true, show
           </Thead>
           <Tbody>
             {sortedData.map((item) => (
-              <Tr key={item.id} cursor="pointer" onClick={() => handleRowClick(item.id)}>
+              <Tr key={item.id}>
                 <Td>
                   <Checkbox
                     isChecked={selectedRows.has(item.id)}
                     onChange={() => handleCheckboxChange(item.id)}
                   />
                 </Td>
-                {columns.map((column, columnIndex) => (
+                {columns && columns.map((column, columnIndex) => (
                   <Td key={columnIndex} maxWidth="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                     <Flex align="center">
                       {column.key === 'status' ? (

@@ -1,199 +1,251 @@
+import React, { useState } from "react";
 import {
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Avatar,
-    useColorModeValue,
-    Container,
-    Text,
-  } from "@chakra-ui/react";
-  import { useState } from "react";
-  import { registerUser } from "../app/services/users";
-  
-  const Register = () => {
-    const bgColor = 'blue.100';
-  
-    const [formData, setFormData] = useState({
-      name: "",
-      age: "",
-      status: "",
-      phone: "",
-      clothingSize: "",
-      shoe: "",
-      whatsapp: "",
-      email: "",
-      notes: "",
-    });
-  
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    };
-  
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      console.log("Submitting form with data:", formData);
-      try {
-        const response = await registerUser(formData);
-        console.log("Response:", response);
-      } catch (error) {
-        console.error("Erro ao registrar usuário:", error);
-      }
-    };
-  
-    return (
-      <Flex >
-        <Flex  bg='blue.50' minH='57rem'  direction="column" w="full">
-        <Text align='center' fontSize='2xl' fontWeight='bold' mx='2rem' mt='2rem'>Cadastro</Text>
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
+  Container,
+  Text,
+} from "@chakra-ui/react";
+import { registerUser } from "../app/services/users";
 
-          <Container maxWidth="full" px="2rem" py='1rem'>
-            <Flex
-              direction="row"
-              bg={bgColor}
-              p="1.5rem"
-              justifyContent="center"
-              rounded="xl"
-            >
-              <Flex direction="column" w="full" p="1rem" rounded="lg">
-                <form onSubmit={handleSubmit}>
-                  <FormControl>
-                    <FormLabel
-                      htmlFor="name"
-                      pb="1rem"
-                      fontWeight="bold"
-                      fontSize="xl"
-                       
-                    >
-                      Cadastrar um usuário
-                    </FormLabel>
-                 
-                    <Flex direction="column" gap={4}>
-                      <FormControl>
-                        <FormLabel>Nome</FormLabel>
-                        <Input
-                          borderColor="gray.500"
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                        />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Idade</FormLabel>
-                        <Input
-                          borderColor="gray.500"
-                          type="number"
-                          id="age"
-                          name="age"
-                          value={formData.age}
-                          onChange={handleChange}
-                        />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Status</FormLabel>
-                        <Input
-                          borderColor="gray.500"
-                          type="text"
-                          id="status"
-                          name="status"
-                          value={formData.status}
-                          onChange={handleChange}
-                        />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Tamanho de roupa</FormLabel>
-                        <Input
-                          borderColor="gray.500"
-                          type="text"
-                          id="clothingSize"
-                          name="clothingSize"
-                          value={formData.clothingSize}
-                          onChange={handleChange}
-                        />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Número de calçado</FormLabel>
-                        <Input
-                          borderColor="gray.500"
-                          type="text"
-                          id="shoe"
-                          name="shoe"
-                          value={formData.shoe}
-                          onChange={handleChange}
-                        />
-                      </FormControl>
-                    </Flex>
-                  </FormControl>
-                </form>
-              </Flex>
-              <Flex direction="column" maxW="50rem" w="full" p="1rem"  rounded="lg">
+const Register = () => {
+  const bgColor = 'white';
+
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    status: "",
+    phone: "",
+    clothingSize: "",
+    shoe: "",
+    whatsapp: "",
+    email: "",
+    notes: "",
+  });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (!formData.name) {
+      setError("O nome é obrigatório.");
+      return;
+    }
+
+    if (!formData.phone && !formData.whatsapp) {
+      setError("O telefone ou WhatsApp é obrigatório.");
+      return;
+    }
+
+    const formattedData = {
+      name: formData.name,
+      age: parseInt(formData.age, 10),
+      stats: formData.status.toLowerCase() === "true",
+      phone: formData.phone,
+      clothingSize: formData.clothingSize,
+      shoe: formData.shoe,
+      whatsapp: formData.whatsapp,
+      email: formData.email,
+      notes: formData.notes,
+    };
+
+    try {
+      const response = await registerUser(formattedData);
+      setSuccess("Usuário registrado com sucesso!");
+      setFormData({
+        name: "",
+        age: "",
+        status: "",
+        phone: "",
+        clothingSize: "",
+        shoe: "",
+        whatsapp: "",
+        email: "",
+        notes: "",
+      });
+    } catch (error) {
+      setError("Erro ao registrar usuário: " + (error.response?.data?.message || error.message));
+    }
+  };
+
+  return (
+    <Flex>
+      <Flex bg="whitesmoke" minH="57rem" direction="column" w="full">
+        <Text align="center" fontSize="2xl" fontWeight="bold" mx="2rem" mt="2rem">
+          Cadastro
+        </Text>
+        <Container maxWidth="full" px="2rem" py="1rem">
+          <Flex direction="row" bg={bgColor} p="1.5rem" justifyContent="center" rounded="xl">
+            <Flex direction="column" w="full" p="1rem" rounded="lg">
+              <form onSubmit={handleSubmit}>
                 <FormControl>
+                  <FormLabel
+                    htmlFor="name"
+                    pb="1rem"
+                    fontWeight="bold"
+                    fontSize="xl"
+                  >
+                    Cadastrar um usuário
+                  </FormLabel>
+
+                  {error && (
+                    <Alert status="error" mb="1rem">
+                      <AlertIcon />
+                      <AlertTitle mr={2}>Erro!</AlertTitle>
+                      <AlertDescription>{error}</AlertDescription>
+                      <CloseButton position="absolute" right="8px" top="8px" onClick={() => setError("")} />
+                    </Alert>
+                  )}
+
+                  {success && (
+                    <Alert status="success" mb="1rem">
+                      <AlertIcon />
+                      <AlertTitle mr={2}>Sucesso!</AlertTitle>
+                      <AlertDescription>{success}</AlertDescription>
+                      <CloseButton position="absolute" right="8px" top="8px" onClick={() => setSuccess("")} />
+                    </Alert>
+                  )}
+
                   <Flex direction="column" gap={4}>
-                    <FormLabel fontWeight="bold" fontSize="xl">Contato</FormLabel>
-                    <FormControl>
-                      <FormLabel>Telefone</FormLabel>
+                    <FormControl isRequired>
+                      <FormLabel>Nome</FormLabel>
                       <Input
                         borderColor="gray.500"
                         type="text"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
+                        id="name"
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Whatsapp</FormLabel>
+                      <FormLabel>Idade</FormLabel>
                       <Input
                         borderColor="gray.500"
-                        type="text"
-                        id="whatsapp"
-                        name="whatsapp"
-                        value={formData.whatsapp}
+                        type="number"
+                        id="age"
+                        name="age"
+                        value={formData.age}
                         onChange={handleChange}
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Status</FormLabel>
                       <Input
                         borderColor="gray.500"
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
+                        type="text"
+                        id="status"
+                        name="status"
+                        value={formData.status}
                         onChange={handleChange}
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Notas</FormLabel>
+                      <FormLabel>Tamanho de roupa</FormLabel>
                       <Input
                         borderColor="gray.500"
                         type="text"
-                        id="notes"
-                        name="notes"
-                        value={formData.notes}
+                        id="clothingSize"
+                        name="clothingSize"
+                        value={formData.clothingSize}
+                        onChange={handleChange}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Número de calçado</FormLabel>
+                      <Input
+                        borderColor="gray.500"
+                        type="text"
+                        id="shoe"
+                        name="shoe"
+                        value={formData.shoe}
                         onChange={handleChange}
                       />
                     </FormControl>
                   </Flex>
                 </FormControl>
-                <Flex justify="center">
-                  <Button w="15rem" mt="1rem" colorScheme="blue" type="submit" onClick={handleSubmit}>
-                    Salvar
-                  </Button>
+              </form>
+            </Flex>
+            <Flex direction="column" maxW="50rem" w="full" p="1rem" rounded="lg">
+              <FormControl>
+                <Flex direction="column" gap={4}>
+                  <FormLabel fontWeight="bold" fontSize="xl">Contato</FormLabel>
+                  <FormControl isRequired>
+                    <FormLabel>Telefone</FormLabel>
+                    <Input
+                      borderColor="gray.500"
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Whatsapp</FormLabel>
+                    <Input
+                      borderColor="gray.500"
+                      type="text"
+                      id="whatsapp"
+                      name="whatsapp"
+                      value={formData.whatsapp}
+                      onChange={handleChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      borderColor="gray.500"
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Notas</FormLabel>
+                    <Input
+                      borderColor="gray.500"
+                      type="text"
+                      id="notes"
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleChange}
+                    />
+                  </FormControl>
                 </Flex>
+              </FormControl>
+              <Flex justify="center">
+                <Button w="15rem" mt="1rem" colorScheme="blue" type="submit" onClick={handleSubmit}>
+                  Salvar
+                </Button>
               </Flex>
             </Flex>
-          </Container>
-        </Flex>
+          </Flex>
+        </Container>
       </Flex>
-    );
-  };
-  
-  export default Register;
-  
+    </Flex>
+  );
+};
+
+export default Register;

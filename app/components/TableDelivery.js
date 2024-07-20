@@ -107,39 +107,11 @@ const TableDelivery = ({ data, columns, onRowClick, showMonthSelector = true, sh
   };
 
   return (
-    <Container minW='100%'>
-      <Flex mb="1rem" alignItems="center" justifyContent='flex-end'>
-        {showMonthSelector && (
-          <>
-            <Select
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-              placeholder="Selecione o mês"
-              maxW="200px"
-              mr="1rem"
-            >
-              <option value="janeiro">Janeiro</option>
-              <option value="fevereiro">Fevereiro</option>
-              <option value="março">Março</option>
-              <option value="abril">Abril</option>
-              <option value="maio">Maio</option>
-              <option value="junho">Junho</option>
-              <option value="julho">Julho</option>
-              <option value="agosto">Agosto</option>
-              <option value="setembro">Setembro</option>
-              <option value="outubro">Outubro</option>
-              <option value="novembro">Novembro</option>
-              <option value="dezembro">Dezembro</option>
-            </Select>
-            {showDeleteButton && <Button onClick={handleSave}>Salvar entregas</Button>}
-          </>
-        )}
-        {onDelete && <Button onClick={onDelete}>Excluir Dados</Button>}
-      </Flex>
+    <Container  minW='100%'>
       <TableContainer rounded='lg'>
-        <Table variant="striped" bg='blue.100' w='full'>
+        <Table variant="striped" bg='white' w='full'>
           <Thead>
-            <Tr position='sticky' top={0} h='4.5rem' zIndex={1} bg='blue.200' my=".8rem">
+            <Tr position='sticky' top={0} h='4.5rem' zIndex={1} bg='white' my=".8rem">
               <Th>
                 <Checkbox isChecked={selectAll} onChange={handleSelectAll} />
               </Th>

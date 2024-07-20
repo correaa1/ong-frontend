@@ -115,9 +115,10 @@ const Index = () => {
   
 
   return (
-    <Box minH='57rem' bg='blue.50'>
-      <Text mx='2rem' mt='2rem' fontWeight='bold' fontSize='2xl'>Lista de usuários</Text>
-      <Box p="1rem">
+    <Box minH='57rem' p='1rem' bg='white'>
+      <Text mx='2rem' m='2rem' fontWeight='bold' fontSize='2xl'>Lista de usuários</Text>
+      <Box w='full' h='full' p='1rem' rounded='xl' bg='whitesmoke'>
+      <Box  >
         <TableChakra columns={userColumns} data={users} onRowClick={handleRowClick}   onSelectedRowsChange={handleSelectedRowsChange}   />
       </Box>
 
@@ -181,18 +182,21 @@ const Index = () => {
           <ModalFooter justifyContent='space-around'>
             <Box mr={3}>
               <Menu>
-                <MenuButton as={Button} colorScheme="blue">
+                <MenuButton  as={Button} colorScheme="blue">
                   Entrega
                 </MenuButton>
                 <MenuList>
                   {Array.from({ length: 12 }, (_, index) => {
                     const monthName = new Date(0, index).toLocaleString('default', { month: 'long' });
                     return (
-                      <MenuItem key={index} onClick={() => handleMonthSelect(monthName)}>
+               
+                     <MenuItem  key={index} onClick={() => handleMonthSelect(monthName)}>
                         {monthName}
                       </MenuItem>
                     );
                   })}
+               
+                     
                 </MenuList>
               </Menu>
             </Box>
@@ -209,6 +213,9 @@ const Index = () => {
         </ModalContent>
       </Modal>
     </Box>
+      </Box>
+
+     
   );
 };
 

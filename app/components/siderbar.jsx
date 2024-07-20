@@ -36,7 +36,7 @@ export default function SimpleSidebar() {
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
-      bg='blue.50'
+      bg='white'
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
@@ -71,8 +71,8 @@ const NavItem = ({ url, onClose, children, ...rest }) => {
           role="group"
           cursor="pointer"
           _hover={{
-            bg: 'cyan.400',
-            color: 'white',
+            bg: 'blackAlpha.300',
+            
           }}
           {...rest}
         >
