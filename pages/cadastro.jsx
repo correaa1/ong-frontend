@@ -12,6 +12,7 @@ import {
   CloseButton,
   Container,
   Text,
+  Select, // Importando Select
 } from "@chakra-ui/react";
 import { registerUser } from "../app/services/users";
 
@@ -21,7 +22,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    status: "",
+    status: "", // Status inicial
     phone: "",
     clothingSize: "",
     shoe: "",
@@ -59,16 +60,11 @@ const Register = () => {
     const formattedData = {
       name: formData.name,
       age: parseInt(formData.age, 10),
-      stats: formData.status.toLowerCase() === "true",
-      phone: formData.phone,
-      clothingSize: formData.clothingSize,
-      shoe: formData.shoe,
-      whatsapp: formData.whatsapp,
-      email: formData.email,
-      notes: formData.notes,
+      stats: formData.status === "true", // Convertendo o status para booleano
     };
 
     try {
+      console.log("Enviando dados para a API:", formattedData); // Log dos dados enviados
       const response = await registerUser(formattedData);
       setSuccess("Usuário registrado com sucesso!");
       setFormData({
@@ -83,6 +79,7 @@ const Register = () => {
         notes: "",
       });
     } catch (error) {
+      console.error("Erro ao registrar usuário:", error.response?.data || error.message); // Log do erro
       setError("Erro ao registrar usuário: " + (error.response?.data?.message || error.message));
     }
   };
@@ -150,14 +147,17 @@ const Register = () => {
                     </FormControl>
                     <FormControl>
                       <FormLabel>Status</FormLabel>
-                      <Input
+                      <Select
                         borderColor="gray.500"
-                        type="text"
                         id="status"
                         name="status"
                         value={formData.status}
                         onChange={handleChange}
-                      />
+                      >
+                        <option value="">Selecione...</option>
+                        <option value="true">Ativo</option>
+                        <option value="false">Inativo</option>
+                      </Select>
                     </FormControl>
                     <FormControl>
                       <FormLabel>Tamanho de roupa</FormLabel>

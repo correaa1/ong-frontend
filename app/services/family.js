@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/v1'; // Seu endpoint base
+const API_URL = 'http://93.127.210.136:8080/v1'; // Seu endpoint base
 
 export const registerFamilyMember = async (formData, userId) => {
   try {

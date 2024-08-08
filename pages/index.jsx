@@ -40,7 +40,7 @@ const Index = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/v1/users');
+        const response = await axios.get('http://93.127.210.136:8080/v1/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -62,7 +62,7 @@ const Index = () => {
     if (!clickedOnCheckbox) {
       setSelectedUserId(userId);
       try {
-        const response = await axios.get(`http://localhost:8080/v1/users/${userId}`);
+        const response = await axios.get(`http://93.127.210.136:8080/v1/users/${userId}`);
         setSelectedUser(response.data);
         onOpenUserProfile();
       } catch (error) {

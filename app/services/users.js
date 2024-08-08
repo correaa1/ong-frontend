@@ -2,14 +2,13 @@ import Axios from "axios";
 
 // Configuração do Axios
 const api = Axios.create({
-    baseURL: 'http://localhost:8080/v1',
+    baseURL: 'http://93.127.210.136:8080/v1',
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
     },
 });
 
-// Função para registrar o usuário
 const registerUser = async (userData) => {
     try {
         const { data } = await api.post("/users", userData);
