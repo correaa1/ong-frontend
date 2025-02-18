@@ -40,7 +40,7 @@ const Index = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://93.127.210.136:8080/v1/users');
+        const response = await axios.get('https://ongnany.tech/v1/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -62,7 +62,7 @@ const Index = () => {
     if (!clickedOnCheckbox) {
       setSelectedUserId(userId);
       try {
-        const response = await axios.get(`http://93.127.210.136:8080/v1/users/${userId}`);
+        const response = await axios.get(`https://ongnany.tech/v1/users/${userId}`);
         setSelectedUser(response.data);
         onOpenUserProfile();
       } catch (error) {
@@ -97,7 +97,7 @@ const Index = () => {
   
       console.log('Data to be sent:', data);
   
-      const response = await axios.post('http://localhost:8080/v1/delivery', data);
+      const response = await axios.post('https://ongnany.tech/v1/delivery', data);
       console.log('Resposta da API:', response.data);
       onCloseAddDelivery(); // Fechar o modal após salvar
     } catch (error) {
