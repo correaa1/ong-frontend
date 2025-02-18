@@ -2,7 +2,7 @@ import Axios from "axios";
 
 // Configuração do Axios
 const api = Axios.create({
-    baseURL: 'http://93.127.210.136:8080/v1',
+    baseURL: 'https://ongnany.tech/v1',
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
