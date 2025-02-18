@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import TableChakra from '@/app/components/TableChakra';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 import {
   Modal,
   ModalOverlay,
@@ -30,6 +31,8 @@ import { ChevronDownIcon } from 'lucide-react';
 
 const Index = () => {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const { isOpen: isOpenAddDelivery, onOpen: onOpenAddDelivery, onClose: onCloseAddDelivery } = useDisclosure();
   const { isOpen: isOpenUserProfile, onOpen: onOpenUserProfile, onClose: onCloseUserProfile } = useDisclosure();
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -39,11 +42,14 @@ const Index = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get('https://ongnany.tech/v1/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -57,22 +63,21 @@ const Index = () => {
   ];
 
   const handleRowClick = async (userId, event) => {
-    console.log('ID do Usuário Selecionado weed:', userId); 
     const clickedOnCheckbox = event && (event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL');
     if (!clickedOnCheckbox) {
       setSelectedUserId(userId);
+      setIsLoadingProfile(true);
       try {
         const response = await axios.get(`https://ongnany.tech/v1/users/${userId}`);
         setSelectedUser(response.data);
         onOpenUserProfile();
       } catch (error) {
         console.error('Error fetching user details:', error);
+      } finally {
+        setIsLoadingProfile(false);
       }
     }
   };
-  
-  
-  
 
   const handleAddFamilyMember = () => {
     onCloseUserProfile(); 
@@ -86,20 +91,13 @@ const Index = () => {
 
   const handleSave = async () => {
     try {
-      console.log('Selected Month:', selectedMonth);
-      console.log('Selected User IDs:', selectedUserId);
-  
-  
       const data = {
         month: selectedMonth,
         userIds: selectedUserId,
       };
   
-      console.log('Data to be sent:', data);
-  
       const response = await axios.post('https://ongnany.tech/v1/delivery', data);
-      console.log('Resposta da API:', response.data);
-      onCloseAddDelivery(); // Fechar o modal após salvar
+      onCloseAddDelivery();
     } catch (error) {
       console.error('Error saving delivery:', error);
     }
@@ -107,19 +105,24 @@ const Index = () => {
   
   const handleSelectedRowsChange = (selectedRows) => {
     console.log('IDs dos usuários selecionados:', selectedRows);
-    // Atualize o estado ou faça outras operações necessárias aqui
   };
-  
-  
-  
-  
 
   return (
     <Box minH='57rem' p='1rem' bg='white'>
       <Text mx='2rem' m='2rem' fontWeight='bold' fontSize='2xl'>Lista de usuários</Text>
       <Box w='full' h='full' p='1rem' rounded='xl' bg='whitesmoke'>
-      <Box  >
-        <TableChakra columns={userColumns} data={users} onRowClick={handleRowClick}   onSelectedRowsChange={handleSelectedRowsChange}   />
+        {isLoading ? (
+          <LoadingSpinner message="Carregando usuários..." />
+        ) : (
+          <Box>
+            <TableChakra 
+              columns={userColumns} 
+              data={users} 
+              onRowClick={handleRowClick} 
+              onSelectedRowsChange={handleSelectedRowsChange} 
+            />
+          </Box>
+        )}
       </Box>
 
       <Modal isOpen={isOpenUserProfile} onClose={onCloseUserProfile}>
@@ -130,7 +133,9 @@ const Index = () => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {selectedUser && (
+            {isLoadingProfile ? (
+              <LoadingSpinner message="Carregando perfil..." />
+            ) : selectedUser && (
               <Grid templateColumns="repeat(2, 1fr)" gap={6}>
                 <GridItem colSpan={2}>
                   <VStack align="flex-start" spacing={4}>
@@ -182,21 +187,18 @@ const Index = () => {
           <ModalFooter justifyContent='space-around'>
             <Box mr={3}>
               <Menu>
-                <MenuButton  as={Button} colorScheme="blue">
+                <MenuButton as={Button} colorScheme="blue">
                   Entrega
                 </MenuButton>
                 <MenuList>
                   {Array.from({ length: 12 }, (_, index) => {
                     const monthName = new Date(0, index).toLocaleString('default', { month: 'long' });
                     return (
-               
-                     <MenuItem  key={index} onClick={() => handleMonthSelect(monthName)}>
+                      <MenuItem key={index} onClick={() => handleMonthSelect(monthName)}>
                         {monthName}
                       </MenuItem>
                     );
                   })}
-               
-                     
                 </MenuList>
               </Menu>
             </Box>
@@ -213,9 +215,6 @@ const Index = () => {
         </ModalContent>
       </Modal>
     </Box>
-      </Box>
-
-     
   );
 };
 

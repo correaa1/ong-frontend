@@ -15,6 +15,7 @@ import {
   Select, // Importando Select
 } from "@chakra-ui/react";
 import { registerUser } from "../app/services/users";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 const Register = () => {
   const bgColor = 'white';
@@ -33,6 +34,7 @@ const Register = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,25 +48,23 @@ const Register = () => {
     event.preventDefault();
     setError("");
     setSuccess("");
-
-    if (!formData.name) {
-      setError("O nome é obrigatório.");
-      return;
-    }
-
-    if (!formData.phone && !formData.whatsapp) {
-      setError("O telefone ou WhatsApp é obrigatório.");
-      return;
-    }
-
-    const formattedData = {
-      name: formData.name,
-      age: parseInt(formData.age, 10),
-      stats: formData.status === "true", // Convertendo o status para booleano
-    };
+    setIsSubmitting(true);
 
     try {
-      console.log("Enviando dados para a API:", formattedData); // Log dos dados enviados
+      if (!formData.name) {
+        throw new Error("O nome é obrigatório.");
+      }
+
+      if (!formData.phone && !formData.whatsapp) {
+        throw new Error("O telefone ou WhatsApp é obrigatório.");
+      }
+
+      const formattedData = {
+        name: formData.name,
+        age: parseInt(formData.age, 10),
+        stats: formData.status === "true",
+      };
+
       const response = await registerUser(formattedData);
       setSuccess("Usuário registrado com sucesso!");
       setFormData({
@@ -79,10 +79,20 @@ const Register = () => {
         notes: "",
       });
     } catch (error) {
-      console.error("Erro ao registrar usuário:", error.response?.data || error.message); // Log do erro
+      console.error("Erro ao registrar usuário:", error.response?.data || error.message);
       setError("Erro ao registrar usuário: " + (error.response?.data?.message || error.message));
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  if (isSubmitting) {
+    return (
+      <Flex minH="57rem" justify="center" align="center" bg="whitesmoke">
+        <LoadingSpinner message="Registrando usuário..." />
+      </Flex>
+    );
+  }
 
   return (
     <Flex>
@@ -236,7 +246,15 @@ const Register = () => {
                 </Flex>
               </FormControl>
               <Flex justify="center">
-                <Button w="15rem" mt="1rem" colorScheme="blue" type="submit" onClick={handleSubmit}>
+                <Button 
+                  w="15rem" 
+                  mt="1rem" 
+                  colorScheme="blue" 
+                  type="submit" 
+                  onClick={handleSubmit}
+                  isLoading={isSubmitting}
+                  loadingText="Salvando..."
+                >
                   Salvar
                 </Button>
               </Flex>
