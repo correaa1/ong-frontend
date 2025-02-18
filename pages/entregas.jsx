@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DeliveryTable from '@/app/components/TableDelivery';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { Select, Button, Box, Text, Flex } from '@chakra-ui/react';
 import { confirmAlert } from 'react-confirm-alert'; // Importa a função de confirmação
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Importa o CSS
@@ -10,6 +11,8 @@ const DeliveryPage = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRemoving, setIsRemoving] = useState(false);
   const [columns] = useState([
     { key: 'name', label: 'Nome do Usuário' },
     { key: 'age', label: 'Idade' },
@@ -26,11 +29,14 @@ const DeliveryPage = () => {
 
   useEffect(() => {
     const fetchDeliveries = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get('http://localhost:8080/v1/delivery');
         setDeliveries(response.data);
       } catch (error) {
         console.error('Erro ao buscar entregas:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -72,6 +78,7 @@ const DeliveryPage = () => {
         {
           label: 'Sim',
           onClick: async () => {
+            setIsRemoving(true);
             try {
               await axios.delete('http://localhost:8080/v1/delivery', {
                 data: {
@@ -79,7 +86,6 @@ const DeliveryPage = () => {
                   userIds: [selectedUserId]
                 }
               });
-              console.log('Usuário removido:', selectedUserId);
               const updatedDeliveries = deliveries.map(delivery => 
                 delivery.month === selectedMonth
                   ? { ...delivery, users: delivery.users.filter(user => user.id !== selectedUserId) }
@@ -89,6 +95,8 @@ const DeliveryPage = () => {
               handleMonthChange({ target: { value: selectedMonth } });
             } catch (error) {
               console.error('Erro ao remover usuário:', error);
+            } finally {
+              setIsRemoving(false);
             }
           }
         },
@@ -106,7 +114,12 @@ const DeliveryPage = () => {
       <Box w='full' h='full' p='1rem' rounded='xl' bg='whitesmoke'>
         <Flex mb='1rem' alignItems='center' mx='1rem' justifyContent='flex-end'>
           <Box>
-          <Select placeholder="Selecione o mês" onChange={handleMonthChange} value={selectedMonth}>
+            <Select 
+              placeholder="Selecione o mês" 
+              onChange={handleMonthChange} 
+              value={selectedMonth}
+              isDisabled={isLoading}
+            >
               {months.map(month => (
                 deliveries.some(delivery => delivery.month === month) && (
                   <option key={month} value={month}>
@@ -116,18 +129,28 @@ const DeliveryPage = () => {
               ))}
             </Select>
           </Box>
-          <Button ml={2} colorScheme="red" onClick={handleRemove} disabled={!selectedUserId}>
+          <Button 
+            ml={2} 
+            colorScheme="red" 
+            onClick={handleRemove} 
+            disabled={!selectedUserId || isRemoving}
+            isLoading={isRemoving}
+          >
             Remover
           </Button>
         </Flex>
-        <DeliveryTable
-          data={filteredUsers}
-          columns={columns}
-          onRowClick={handleRowClick}
-          selectedUserId={selectedUserId}
-          showMonthSelector={false}
-          showDeleteButton={true}
-        />
+        {isLoading ? (
+          <LoadingSpinner message="Carregando entregas..." />
+        ) : (
+          <DeliveryTable
+            data={filteredUsers}
+            columns={columns}
+            onRowClick={handleRowClick}
+            selectedUserId={selectedUserId}
+            showMonthSelector={false}
+            showDeleteButton={true}
+          />
+        )}
       </Box>
     </Box>
   );
